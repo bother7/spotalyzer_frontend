@@ -6,6 +6,7 @@ import Nav from './components/user_interface/Nav'
 import SongContainer from './components/song/SongContainer'
 import MenuLeft from './components/user_interface/MenuLeft'
 import MenuRight from './components/user_interface/MenuRight'
+import SongPlayer from './components/song/SongPlayer'
 
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
         <MenuLeft />
         <MenuRight />
         <SongContainer />
+        <SongPlayer />
       </div>
   );
   }

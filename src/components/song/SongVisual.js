@@ -1,15 +1,28 @@
 import React from 'react';
-import { Bar } from '@vx/shape';
-import { AxisLeft, AxisBottom } from '@vx/axis';
-import { appleStock } from '@vx/mock-data';
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { extent, max } from 'd3-array';
-import { AreaClosed } from '@vx/shape';
-import { Group } from '@vx/group';
+import { scaleLinear} from '@vx/scale';
+import { max } from 'd3-array';
+import { Stack, AreaClosed } from '@vx/shape';
+import {firstsample} from '../sampledata/firstsample'
+import { curveNatural } from '@vx/curve'
+import { cityTemperature } from '@vx/mock-data';
+import { Group } from '@vx/group'
 
 
+const city = cityTemperature
+const sample = firstsample
+// const data = appleStock;
+const data = sample.segments.map( (item) => {
+  return {time: item.start,
+    pitch0: item.pitches[0],
+    timbre0: item.timbre[0],
+    pitch1: item.pitches[1],
+    timbre1: item.timbre[1],
+    pitch2: item.pitches[2],
+    timbre2: item.timbre[2],
+    pitch3: item.pitches[3],
+    timbre3: item.timbre[3],
+    }})
 
-const data = appleStock;
 const width = 750;
 const height = 400;
 const margin = {
@@ -20,54 +33,37 @@ right: 80,
 };
 const xMax = width - margin.left - margin.right;
 const yMax = height - margin.top - margin.bottom;
-const x = d => new Date(d.date); // d.date is unix timestamps
-const y = d => d.close;
-const xScale = scaleTime({
-range: [0, xMax],
-domain: extent(data, x)
-});
+const x = d => d.time;
+const y = d => d.pitch0;
+const curve = curveNatural
 const yScale = scaleLinear({
 range: [yMax, 0],
 domain: [0, max(data, y)],
 });
+const xScale = scaleLinear({
+      range: [0, xMax],
+      domain: [0, max(data, x)],
+    });
+const keys = ["pitch0", "pitch1", "pitch2","pitch3"]
 
-const chart = (
-<svg width={width} height={height}>
-  <Group top={margin.top} left={margin.left}>
-<AxisBottom
-  scale={xScale}
-  top={yMax}
-  label={'Years'}
-  stroke={'#1b1a1e'}
-  tickTextFill={'#1b1a1e'}
+const stack = (<svg width={width} height={height}>
+<AreaClosed
+  data={data}
+  xScale={xScale}
+  yScale={yScale}
+  x={x}
+  y={y}
+  strokeWidth={2}
+  fill={"red"}
 />
-
-
-  <AxisLeft
-  scale={yScale}
-  top={0}
-  left={0}
-  label={'Close Price ($)'}
-  stroke={'#1b1a1e'}
-  tickTextFill={'#1b1a1e'}
-/>
-    <AreaClosed
-      data={data}
-      xScale={xScale}
-      yScale={yScale}
-      x={x}
-      y={y}
-      fill={"red"}
-    />
-  </Group>
-</svg>
-)
+</svg>)
 
 
 export default class SongVisual extends React.Component {
 
   render () {
-    return (chart)
+    console.log(city)
+    return (stack)
   }
 
 }
