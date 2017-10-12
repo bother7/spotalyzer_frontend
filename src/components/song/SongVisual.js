@@ -26,8 +26,8 @@ const data = sample.segments.map( (item) => {
     pitch11: item.pitches[11],
     }})
 
-const width = 1200;
-const height = 600;
+const width = 500;
+const height = 300;
 const margin = {
 top: 60,
 bottom: 60,

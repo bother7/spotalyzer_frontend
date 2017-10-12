@@ -1,7 +1,7 @@
 import { env_url } from '../components/data/environment'
 
-export function addUser (name) {
-  return {type: 'ADD_USER', payload: name}
+export function loginUser (name, user_id) {
+  return {type: 'LOGIN_USER', username: name, user_id: user_id}
 }
 
 export function removeUser () {
@@ -12,15 +12,23 @@ export function currentSong (song) {
   return {type: 'CURRENT_SONG', payload: song}
 }
 
-export function searchTerm (search) {
+export function authorizeUser () {
+  return {type: 'AUTHORIZE_USER'}
+}
+
+export function searchTerm (search, searchFilter) {
   return function(dispatch) {
     dispatch(currentlyLoading())
-    console.log(`${env_url}/search/${search}`)
-    fetch(`${env_url}/search/${search}`, {
-      method: 'GET',
+    fetch(`${env_url}/search`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+          search: search,
+          user_id: localStorage.getItem("user_id"),
+          searchFilter: searchFilter
+        })
     })
     .then((resp) => resp.json())
     .then((json) => {

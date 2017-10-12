@@ -5,7 +5,8 @@ import {searchTerm} from '../../actions/index'
 class MenuRight extends React.Component {
 
   state = {
-    search: ""
+    search: "",
+    searchFilter: "track"
   }
 
   handleKey = (event) => {
@@ -14,11 +15,24 @@ class MenuRight extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.searchSpotify(this.state.search)
+    this.props.searchSpotify(this.state.search, this.state.searchFilter)
   }
 
+  handleOption = (event) => {
+    event.preventDefault()
+    this.setState({searchFilter: event.target.value})
+  }
   render () {
-    return (<div> <form onSubmit={this.handleSubmit}><input type="text" onKeyUp={this.handleKey}/><button type="submit">Search</button></form>
+    return (<div className="menuright">
+    <form onSubmit={this.handleSubmit}>
+    <input type="text" onKeyUp={this.handleKey}/>
+    <select onChange={this.handleOption} value={this.state.searchFilter}>
+    <option value="track">Track</option>
+    <option value="artist">Artist</option>
+    <option value="playlist">Playlist</option>
+    </select>
+    <button type="submit">Search</button>
+    </form>
       right menu</div>)
   }
 }
@@ -31,8 +45,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchSpotify: (searchString) => {
-      dispatch(searchTerm(searchString))
+    searchSpotify: (searchString, searchFilter) => {
+      dispatch(searchTerm(searchString, searchFilter))
     }
   }
 }

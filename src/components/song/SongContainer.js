@@ -5,7 +5,7 @@ export default class SongContainer extends React.Component {
 
   render () {
     return (
-      <div className="wrapper">
+      <div className="center">
       <SongVisual />
       </div>
     )
