@@ -8,7 +8,7 @@ export default class Nav extends React.Component {
    return (
      <div className="navbar">
         <a>Spotify Data Visualizer </a>
-          <NavLink activeClassName="active" className="item" to="/">Home</NavLink>
+          <NavLink activeClassName="active" onClick={this.props.goHome} className="item" to="/">Home</NavLink>
           <NavLink activeClassName="active" className="item" to="/signup">Signup</NavLink>
           <NavLink activeClassName="active" className="item" to="/login">Login</NavLink>
           <NavLink activeClassName="active" className="item" to="/authorize" onClick={this.props.handleAuthorize}>Authorize</NavLink>

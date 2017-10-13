@@ -33,7 +33,8 @@ class MenuRight extends React.Component {
     </select>
     <button type="submit">Search</button>
     </form>
-      right menu</div>)
+      PLAYLIST MENU LOL <br></br>
+      playlist goes here</div>)
   }
 }
 

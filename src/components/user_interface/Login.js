@@ -33,7 +33,7 @@ class Login extends React.Component {
     .then(response => response.json())
     .then(json => {
       this.props.handleLogin(json.name, json.id)
-      localStorage.setItem("user_id", json.id)
+      localStorage.setItem("jwt_token", json.jwt_token)
       this.props.history.push('/')
     })
   }

@@ -13,11 +13,11 @@ class CallbackSpotify extends React.Component {
         fetch(`${env_url}/spotifyauth`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
         },
         body: JSON.stringify({
-          code: code,
-          user_id: localStorage.getItem("user_id")
+          code: code
         })
       }).then(response => response.json())
       .then(json => {

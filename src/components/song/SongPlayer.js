@@ -1,29 +1,44 @@
 import React from 'react';
-import {Spotilocal} from '../data/spotilocal';
+import {connect} from 'react-redux'
+// import {helper} from '../data/SpotifyWebHelper'
 
-// const spotilocal = new Spotilocal();
-// const trackUri = 'spotify:track:3cANM3NuUjRDTi8fdU8P6q';
-// spotilocal.init().then((spotilocal) => {
-//     return spotilocal.play(trackUri, 'spotify:user:shyyko.serhiy:playlist:4SdN0Re3tJg9uG08z2Gkr1')
-// }).then((status) => {
-//     console.log(`Playing:   ${status.playing}`);
-//     console.log(`Song Name: ${status.track.track_resource.name}`);
-//     return spotilocal.pause(true);
-// }).catch(console.error);
+// console.log(helper.getCsrfToken())
+// debugger
+// helper.player.play('spotify:track:4uLU6hMCjMI75M1A2tKUQC');
 
 
-export default class SongContainer extends React.Component {
+class SongContainer extends React.Component {
+
+  // handleClick = (event) => {
+  //   event.preventDefault()
+  //   console.log(helper.status)
+  //   helper.player.play('spotify:track:4uLU6hMCjMI75M1A2tKUQC');
+  // }
   componentDidMount(){
-    // this.refs.myIframe.onload = () => {
-    //   console.log(this.refs.myIframe)
-    // }
+    // helper.getCsrfToken()
+    this.refs.myIframe.onload = () => {
+      console.log(this.refs.myIframe)
+    }
   }
-  // <iframe className="player" src="https://open.spotify.com/embed?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" ref="myIframe" width="300" height="80" frameBorder="0" allowTransparency="true"></iframe>
+  // <iframe className="player" src="https://open.spotify.com/embed?uri=spotify:track:5XCJndUuktaxfVruAek3mT&theme=white" ref="myIframe" width="300" height="80" frameBorder="0" allowTransparency="true"></iframe>
 
   render () {
-    return (
-      <iframe width="182" height="267" frameborder="0" src="http://cdn.last.fm/customisation/2008_moto/explorewidget/en.html" />
-    );
+    var uri = "https://open.spotify.com/embed?uri=" + this.props.uri + "&theme=white"
+    return (<iframe className="player" src={uri} ref="myIframe" width="300" height="80" frameBorder="0" allowTransparency="true"></iframe>)
   }
 
 }
+
+function mapStateToProps(state) {
+  return {
+    uri: state.songs.uri
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SongContainer)
