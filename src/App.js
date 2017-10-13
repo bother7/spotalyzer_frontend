@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {Route, NavLink} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import Nav from './components/user_interface/Nav'
 import SongContainer from './components/song/SongContainer'
 import MenuLeft from './components/user_interface/MenuLeft'
@@ -12,7 +11,7 @@ import {connect} from 'react-redux'
 import Login from './components/user_interface/Login'
 
 // add scope to auth
-const auth = 'https://accounts.spotify.com/en/authorize?client_id=4ca18a2c6f894c9783d233393c8115bc&response_type=code&redirect_uri=http:%2F%2Flocalhost:3000%2Fcallback&show_dialog=true'
+const auth = 'https://accounts.spotify.com/en/authorize?client_id=4ca18a2c6f894c9783d233393c8115bc&response_type=code&redirect_uri=http:%2F%2Flocalhost:3000%2Fcallback&scope=user-modify-playback-state&show_dialog=true'
 
 
 class App extends Component {
@@ -57,7 +56,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    
+
   }
 }
 

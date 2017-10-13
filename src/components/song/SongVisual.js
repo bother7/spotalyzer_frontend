@@ -112,7 +112,7 @@ const stack = (<svg width={width} height={height}>
 export default class SongVisual extends React.Component {
 
   render () {
-    console.log(data)
+    // console.log(data)
     return (stack)
   }
 
