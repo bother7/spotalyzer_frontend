@@ -37,7 +37,7 @@ mapSongs = (array) => {
           var tablerows = null
         }
       }
-    return (<table>{tablerows}</table>)
+    return (<table className="songTable">{tablerows}</table>)
     }
 
 

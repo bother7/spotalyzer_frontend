@@ -20,17 +20,25 @@
 .playlists {
   min-width: 100%;
   min-height: 50%;
+  border: solid black 2px;
 }
 
 .saved {
   min-width: 100%;
   min-height: 50%;
+  border: solid black 2px;
 }
 
 .center {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
   border: solid black 2px;
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+.songTable {
+
 }
 
 .wrapper {
