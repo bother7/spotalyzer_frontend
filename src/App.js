@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import {Route} from 'react-router-dom'
 import Nav from './components/user_interface/Nav'
-import SongContainer from './components/song/SongContainer'
+import SongContainer from './components/music/SongContainer'
 import MenuLeft from './components/user_interface/MenuLeft'
 import MenuRight from './components/user_interface/MenuRight'
-import SongPlayer from './components/song/SongPlayer'
+import SongPlayer from './components/music/SongPlayer'
 import CallbackSpotify from './components/user_interface/CallbackSpotify'
 import {connect} from 'react-redux'
 import Login from './components/user_interface/Login'

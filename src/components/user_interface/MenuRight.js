@@ -1,40 +1,37 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {searchTerm} from '../../actions/index'
+import {getPlaylists, createPlaylist} from '../../actions/index'
 
 class MenuRight extends React.Component {
 
-  state = {
-    search: "",
-    searchFilter: "track"
+
+
+  componentDidMount () {
+    this.props.getPlaylists()
   }
 
-  handleKey = (event) => {
-    this.setState({search: event.target.value})
-  }
-
-  handleSubmit = (event) => {
+  handleCreatePlaylist = (event) => {
     event.preventDefault()
-    this.props.searchSpotify(this.state.search, this.state.searchFilter)
+    console.log('clicked create playlist')
   }
 
-  handleOption = (event) => {
-    event.preventDefault()
-    this.setState({searchFilter: event.target.value})
-  }
+
+
+
   render () {
     return (<div className="menuright">
-    <form onSubmit={this.handleSubmit}>
-    <input type="text" onKeyUp={this.handleKey}/>
-    <select onChange={this.handleOption} value={this.state.searchFilter}>
-    <option value="track">Track</option>
-    <option value="artist">Artist</option>
-    <option value="playlist">Playlist</option>
-    </select>
-    <button type="submit">Search</button>
-    </form>
-      PLAYLIST MENU LOL <br></br>
-      playlist goes here</div>)
+      <div className="playlists">
+      <h3>playlist stuff here</h3>
+      <form onSubmit={this.handleCreatePlaylist}>
+      <input type="text" placeholder="Create Playlist Name"></input>
+      <button type="submit">Create Playlist</button>
+      </form>
+
+      </div>
+      <div className="saved">
+      <h3>saved stuff here</h3>
+      </div>
+    </div>)
   }
 }
 
@@ -46,8 +43,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchSpotify: (searchString, searchFilter) => {
-      dispatch(searchTerm(searchString, searchFilter))
+    getPlaylists: () => {
+      dispatch(getPlaylists())
+    },
+    createNewPlaylist: (name) => {
+      dispatch(createPlaylist(name))
     }
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import SongVisual from './SongVisual'
-import SearchResults from './SearchResults'
-import Welcome from './Welcome'
+import SongList from './SongList'
+
 
 export default class SongContainer extends React.Component {
 
@@ -12,19 +12,15 @@ export default class SongContainer extends React.Component {
         <div className="center">
         <SongVisual />
         </div>)
-      case 'search':
-        return (<div className="center">
-        <SearchResults />
-        </div>)
-      case 'welcome':
+      case 'welcome', 'search':
         return (
           <div className="center">
-          <Welcome />
+          <SongList />
           </div>)
       default:
         return (
           <div className="center">
-          <Welcome />
+          <SongList />
           </div>)
         }
     }

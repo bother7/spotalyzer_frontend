@@ -24,7 +24,7 @@ class SongContainer extends React.Component {
 
   render () {
     var uri = "https://open.spotify.com/embed?uri=" + this.props.uri + "&theme=white"
-    return (<iframe className="player" src={uri} ref="myIframe" width="300" height="80" frameBorder="0" allowTransparency="true"></iframe>)
+    return (<iframe className="player" src={uri} ref="myIframe" width="100%" height="100%" frameBorder="0" allowTransparency="true"></iframe>)
   }
 
 }

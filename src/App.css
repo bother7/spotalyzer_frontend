@@ -1,28 +1,51 @@
+.navbar {
+  grid-column: 1 / 4;
+  grid-row: 1 /span 1;
+  border: solid black 2px;
+}
 
 .menuleft {
-  position: fixed;
-  left: 0px;
-  width: 200px;
-  height: 90%;
+  grid-column: 1 / 2;
+  grid-row: 2 / 4;
+  border: solid black 2px;
 }
 
 .menuright {
-  position: fixed;
-  right: 0px;
-  width: 200px;
-  height: 90%;
+  grid-column: 3 / 4;
+  grid-row: 2 / 4;
+  border: solid black 2px;
+  grid-template-rows: 50% 50%;
+}
+
+.playlists {
+  min-width: 100%;
+  min-height: 50%;
+}
+
+.saved {
+  min-width: 100%;
+  min-height: 50%;
+}
+
+.center {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  border: solid black 2px;
 }
 
 .wrapper {
-  position:fixed;
-  left: 200px;
-  right: 200px;
+  position: fixed;
+  display:inline-grid;
+  grid-template-columns: 150px auto 250px;
+  grid-template-rows: 40px auto 80px;
+  min-width: 100%;
+  min-height: 100%;
+  border: solid green 2px;
 }
 
-
 .player {
-position: fixed;
-  bottom: 0px;
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
 }
 
 .authorize {
