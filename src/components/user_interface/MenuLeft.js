@@ -29,12 +29,7 @@ class MenuLeft extends React.Component {
     </select>
     <button type="submit">Search</button>
     </form>
-    <br></br>
-    Basic Menu <br></br>
-    Stuff goes here <br></br>
-    browse? <br></br>
-    Spotify???? <br></br>
-    PROFESSIONAL salkfalskgjs
+
     </div>)
   }
 

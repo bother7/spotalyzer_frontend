@@ -1,32 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:light,medium,black,regular,bold,italic');
+
+
 .navbar {
   grid-column: 1 / 4;
   grid-row: 1 /span 1;
-  border: solid black 2px;
-}
+  margin-left: 5px;
 
+}
+.logo-box {
+  height: 40px;
+  width: 147px;
+  position:fixed;
+}
+.item {
+  display: inline-block;
+  float: right;
+  padding-top: 9px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.navbar-right{
+  margin-bottom: 5px;
+  margin-right: 5px;
+  max-height: 37px;
+  border-bottom: solid black 2px;
+  height: 40px;
+  position:fixed;
+  left: 152px;
+  right: 0px;
+}
+.logo {
+  float: left;
+}
 .menuleft {
+  margin-left: 5px;
   grid-column: 1 / 2;
   grid-row: 2 / 4;
   border: solid black 2px;
+  border-radius: 20px;
+  padding: 2px;
 }
 
 .menuright {
+  margin-right: 15px;
   grid-column: 3 / 4;
   grid-row: 2 / 4;
-  border: solid black 2px;
   grid-template-rows: 50% 50%;
 }
 
 .playlists {
+
   min-width: 100%;
   min-height: 50%;
   border: solid black 2px;
+  border-radius: 20px;
+  padding: 2px;
+  margin-bottom: 5px;
 }
 
 .saved {
+  margin-top: 5px;
   min-width: 100%;
   min-height: 50%;
   border: solid black 2px;
+  border-radius: 20px;
+  padding: 2px;
 }
 
 .center {
@@ -35,6 +73,8 @@
   border: solid black 2px;
   max-height: 640px;
   overflow-y: auto;
+  border-radius: 20px;
+  padding: 2px;
 }
 
 .songTable {
@@ -42,6 +82,12 @@
 }
 
 .wrapper {
+  grid-gap: 5px;
+  font-family: 'Raleway';
+  font-style: bold;
+  font-size: 20px;
+  background-origin: content-box;
+  background-image: url('./imgs/fondo_libri.jpg');
   position: fixed;
   display:inline-grid;
   grid-template-columns: 150px auto 250px;

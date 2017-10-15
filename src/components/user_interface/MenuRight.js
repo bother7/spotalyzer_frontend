@@ -21,7 +21,7 @@ class MenuRight extends React.Component {
   render () {
     return (<div className="menuright">
       <div className="playlists">
-      <h3>playlist stuff here</h3>
+      playlist stuff here<br></br>
       <form onSubmit={this.handleCreatePlaylist}>
       <input type="text" placeholder="Create Playlist Name"></input>
       <button type="submit">Create Playlist</button>
@@ -29,7 +29,7 @@ class MenuRight extends React.Component {
 
       </div>
       <div className="saved">
-      <h3>saved stuff here</h3>
+      saved stuff here<br></br>
       </div>
     </div>)
   }
