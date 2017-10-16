@@ -14,6 +14,8 @@ export default function users(state = {username: "", isAuthorized: false}, actio
       return {...state, username: ""}
     case 'AUTHORIZE_USER':
       return {...state, isAuthorized: true}
+    case 'SIGN_OUT':
+      return {...state, username: "", user_id: null, isAuthorized: false}
     default:
       return state
   }

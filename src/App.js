@@ -10,7 +10,8 @@ import CallbackSpotify from './components/user_interface/CallbackSpotify'
 import {connect} from 'react-redux'
 import Login from './components/user_interface/Login'
 import {auth} from './components/data/auth_url'
-import {goHome} from './actions/index'
+import {goHome, signOut, loginUser, isUserAuthorized} from './actions/index'
+import {env_url} from './components/data/environment'
 
 // add scope to auth
 
@@ -21,18 +22,33 @@ class App extends Component {
 
   handleAuthorize = (event) => {
     console.log("this worked", this.props.isAuthorized)
-    // fetch("https://accounts.spotify.com/en/authorize?client_id=4ca18a2c6f894c9783d233393c8115bc&response_type=code&redirect_uri=http:%2F%2Flocalhost:3000%2Fcallback&show_dialog=true")
   }
 
 
   signOut = (event) => {
   localStorage.removeItem('jwt_token')
-  //replace with jwt token later when we have jwt tokens, as of now we don't have jwt tokens in the "tim was here" -commit.
-  // dispatch signout
+  this.props.signOut()
   }
 
   goHome = (event)  => {
     this.props.goHome()
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('jwt_token') !== null && this.props.username === "") {
+      fetch(`${env_url}/users/persist`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+        }
+      })
+      .then(response => response.json())
+      .then((json) => {
+        this.props.handleLogin(json.name, json.id)
+        this.props.isUserAuthorized(json.id)
+      })
+    }
   }
 
   render() {
@@ -55,7 +71,8 @@ function mapStateToProps(state) {
   return {
     isAuthorized: state.users.isAuthorized,
     container: state.songs.container,
-    searchResults: state.songs.searchResults
+    searchResults: state.songs.searchResults,
+    username: state.users.username
   }
 }
 
@@ -63,6 +80,15 @@ function mapDispatchToProps(dispatch) {
   return {
     goHome: () => {
       dispatch(goHome())
+    },
+    signOut: () => {
+      dispatch(signOut())
+    },
+    handleLogin: (name, user_id) => {
+      dispatch(loginUser(name, user_id))
+    },
+    isUserAuthorized: (user_id) => {
+      dispatch(isUserAuthorized(user_id))
     }
   }
 }

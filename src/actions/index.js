@@ -84,9 +84,31 @@ export function goHome () {
   }
 }
 
-export function loginUser (name, user_id) {
-  return {type: 'LOGIN_USER', username: name, user_id: user_id}
+export function isUserAuthorized (user_id) {
+  return function(dispatch) {
+    fetch(`${env_url}/users/${user_id}/authorized`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    })
+    .then((resp) => resp.json())
+    .then((json) => {
+      if (json.status === "success") {
+        dispatch(authorizeUser())
+        dispatch(goHome())
+      }
+    })
+  }
 }
+
+export function loginUser (name, user_id) {
+  return function(dispatch) {
+    dispatch(sendLogin(name, user_id))
+  }
+}
+
 
 export function playSong(uri) {
   return {type: 'LOAD_SONG', payload: uri}
@@ -124,4 +146,12 @@ export function searchTerm (search, searchFilter) {
       dispatch(finishLoading())
     })
   }
+}
+
+export function sendLogin(name, user_id) {
+    return {type: 'LOGIN_USER', username: name, user_id: user_id}
+}
+
+export function signOut() {
+  return {type: 'SIGN_OUT'}
 }

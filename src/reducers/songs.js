@@ -1,6 +1,6 @@
 
 
-export default function songs(state = {song: null, loading: false, searchResults: [], container: "welcome", uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}, action) {
+export default function songs(state = {song: null, loading: false, searchResults: [], container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}, action) {
   switch (action.type) {
     case 'CURRENT_SONG':
       return {...state, song: action.name}

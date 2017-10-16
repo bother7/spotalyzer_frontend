@@ -33,12 +33,13 @@
   float: left;
 }
 .menuleft {
-  margin-left: 5px;
+  margin-left: 15px;
   grid-column: 1 / 2;
   grid-row: 2 / 4;
   border: solid black 2px;
   border-radius: 20px;
   padding: 2px;
+  margin-bottom: 5px;
 }
 
 .menuright {
@@ -61,7 +62,7 @@
 .saved {
   margin-top: 5px;
   min-width: 100%;
-  min-height: 50%;
+  min-height: 47%;
   border: solid black 2px;
   border-radius: 20px;
   padding: 2px;
@@ -94,7 +95,6 @@
   grid-template-rows: 40px auto 80px;
   min-width: 100%;
   min-height: 100%;
-  border: solid green 2px;
 }
 
 .player {

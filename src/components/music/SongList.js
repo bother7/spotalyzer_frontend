@@ -12,11 +12,12 @@ class Welcome extends React.Component {
   handleAddtoPlaylist = (event) => {
     event.preventDefault()
     console.log(event.target.dataset.id)
-    // this.props.addToPlaylist(event.target.dataset.id)
   }
 
 componentDidMount(){
-  this.props.getRecent()
+  if (this.props.username !== "" && localStorage.getItem('jwt_token') !== null) {
+    this.props.getRecent()
+  }
 }
 
 mapSongs = (array) => {
@@ -30,14 +31,18 @@ mapSongs = (array) => {
       } else {
         var tablerows = null
       }
-    } else {
+      return (<table className="songTable">{tablerows}</table>)
+    } else if (this.props.container === "search"){
         if (this.props.searchResults !== []) {
           var tablerows = this.mapSongs(this.props.searchResults)
         } else {
           var tablerows = null
         }
+        return (<table className="songTable">{tablerows}</table>)
       }
-    return (<table className="songTable">{tablerows}</table>)
+      else {
+        return (<div></div>)
+      }
     }
 
 
@@ -47,7 +52,8 @@ function mapStateToProps(state) {
   return {
     recentlyPlayed: state.songs.recentlyPlayed,
     searchResults: state.songs.searchResults,
-    container: state.songs.container
+    container: state.songs.container,
+    username: state.users.username
   }
 }
 

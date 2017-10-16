@@ -1,7 +1,7 @@
 import React from 'react'
 import {env_url} from '../data/environment'
 import {connect} from 'react-redux'
-import {loginUser} from '../../actions/index'
+import {loginUser, isUserAuthorized} from '../../actions/index'
 
 
 
@@ -34,12 +34,14 @@ class Login extends React.Component {
     .then(json => {
       this.props.handleLogin(json.name, json.id)
       localStorage.setItem("jwt_token", json.jwt_token)
+      this.props.isUserAuthorized(json.id)
       this.props.history.push('/')
     })
   }
 
   render() {
     return (
+    <div className="center">
       <form className="form" onSubmit={this.handleSubmit}>
       <label className="label">
       Username:
@@ -51,6 +53,7 @@ class Login extends React.Component {
       <input className="inputField" type="password" name="name" onChange={this.changePassword} value={this.state.password}/>
       <input className="fsSubmitButton" type="submit" value="Submit" />
       </form>
+      </div>
     )
   }
 
@@ -66,6 +69,9 @@ function mapDispatchToProps(dispatch) {
   return {
     handleLogin: (name, user_id) => {
       dispatch(loginUser(name, user_id))
+    },
+    isUserAuthorized: (user_id) => {
+      dispatch(isUserAuthorized(user_id))
     }
   }
 }
