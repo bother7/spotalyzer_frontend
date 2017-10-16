@@ -21,12 +21,10 @@ export function createPlaylist (name) {
         })
     })
     .then((resp) => resp.json())
-    .then((json) => {dispatch(currentPlaylist(json.id))})
+    .then((json) => {
+      dispatch(getPlaylists())
+      dispatch(newCurrentPlaylist(json.id))})
   }
-}
-
-export function currentPlaylist (id){
-  return {type: 'CURRENT_PLAYLIST', payload: id}
 }
 
 export function currentlyLoading () {
@@ -35,6 +33,21 @@ export function currentlyLoading () {
 
 export function currentSong (song) {
   return {type: 'CURRENT_SONG', payload: song}
+}
+
+export function deletePlaylist (id) {
+  return function (dispatch) {
+    fetch(`${env_url}/playlists/${id}`, {
+       method: 'DELETE',
+       headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+       }
+    }).then(resp => resp.json())
+    .then((json) => {
+      dispatch(retrievePlaylists(json))
+    })
+  }
 }
 
 export function endFetchRecent (json) {
@@ -73,7 +86,12 @@ export function getPlaylists(){
       }
     })
     .then((resp) => resp.json())
-    .then((json) => {dispatch(retrievePlaylists(json))})
+    .then((json) => {
+      if (!json.error) {
+        dispatch(retrievePlaylists(json))
+        dispatch(newCurrentPlaylist(json[0].id))
+      }
+    })
   }
 }
 
@@ -86,7 +104,7 @@ export function goHome () {
 
 export function isUserAuthorized (user_id) {
   return function(dispatch) {
-    fetch(`${env_url}/users/${user_id}/authorized`, {
+    fetch(`${env_url}/users/checkauth`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -103,12 +121,29 @@ export function isUserAuthorized (user_id) {
   }
 }
 
-export function loginUser (name, user_id) {
+export function loginUser (name, user_id, jwt_token) {
   return function(dispatch) {
-    dispatch(sendLogin(name, user_id))
+    dispatch(sendLogin(name, user_id, jwt_token))
   }
 }
 
+export function newCurrentPlaylist (id) {
+  return function(dispatch) {
+    dispatch(sendCurrentPlaylist(id))
+    fetch(`${env_url}/playlists/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (json.status !== "error"){
+        dispatch(storePlaylistSongs(json))
+      }})
+  }
+}
 
 export function playSong(uri) {
   return {type: 'LOAD_SONG', payload: uri}
@@ -121,6 +156,7 @@ export function removeUser () {
 export function retrievePlaylists(json){
     return {type: 'GET_PLAYLISTS', payload: json}
 }
+
 
 export function searchResults(json) {
   return {type: 'SEARCH_RESULTS', payload: json}
@@ -148,10 +184,17 @@ export function searchTerm (search, searchFilter) {
   }
 }
 
-export function sendLogin(name, user_id) {
-    return {type: 'LOGIN_USER', username: name, user_id: user_id}
+export function sendCurrentPlaylist (id) {
+  return {type: 'SEND_CURRENT_PLAYLIST', payload:id}
+}
+
+export function sendLogin(name, user_id, jwt_token) {
+    return {type: 'LOGIN_USER', name: name, user_id: user_id, jwt_token: jwt_token}
 }
 
 export function signOut() {
   return {type: 'SIGN_OUT'}
+}
+export function storePlaylistSongs(json) {
+  return {type: 'STORE_PLAYLIST_SONGS', payload: json}
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {env_url} from '../data/environment'
 import {connect} from 'react-redux'
-import {loginUser, isUserAuthorized} from '../../actions/index'
+import {loginUser, isUserAuthorized, getPlaylists} from '../../actions/index'
 
 
 
@@ -32,9 +32,9 @@ class Login extends React.Component {
     })
     .then(response => response.json())
     .then(json => {
-      this.props.handleLogin(json.name, json.id)
-      localStorage.setItem("jwt_token", json.jwt_token)
+      this.props.handleLogin(json.name, json.id, json.jwt_token)
       this.props.isUserAuthorized(json.id)
+      this.props.getPlaylists()
       this.props.history.push('/')
     })
   }
@@ -67,11 +67,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleLogin: (name, user_id) => {
-      dispatch(loginUser(name, user_id))
+    handleLogin: (name, user_id, jwt_token) => {
+      dispatch(loginUser(name, user_id, jwt_token))
     },
     isUserAuthorized: (user_id) => {
       dispatch(isUserAuthorized(user_id))
+    },
+    getPlaylists: () => {
+      dispatch(getPlaylists())
     }
   }
 }

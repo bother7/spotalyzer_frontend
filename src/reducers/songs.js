@@ -16,6 +16,8 @@ export default function songs(state = {song: null, loading: false, searchResults
       return {...state, container: "welcome"}
     case 'FETCH_RECENT':
       return {...state, recentlyPlayed: action.payload}
+    case 'SIGN_OUT':
+      return {...state, song: null, loading: false, searchResults: [], container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}
     default:
       return state
   }

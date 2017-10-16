@@ -10,8 +10,9 @@ import CallbackSpotify from './components/user_interface/CallbackSpotify'
 import {connect} from 'react-redux'
 import Login from './components/user_interface/Login'
 import {auth} from './components/data/auth_url'
-import {goHome, signOut, loginUser, isUserAuthorized} from './actions/index'
+import {goHome, signOut, loginUser, isUserAuthorized, getPlaylists} from './actions/index'
 import {env_url} from './components/data/environment'
+import Signup from './components/user_interface/Signup'
 
 // add scope to auth
 
@@ -31,7 +32,11 @@ class App extends Component {
   }
 
   goHome = (event)  => {
-    this.props.goHome()
+    if (this.props.username !== "" && this.props.isAuthorized) {
+      this.props.goHome()
+    } else {
+      this.props.history.push('/')
+    }
   }
 
   componentDidMount() {
@@ -45,10 +50,14 @@ class App extends Component {
       })
       .then(response => response.json())
       .then((json) => {
-        this.props.handleLogin(json.name, json.id)
-        this.props.isUserAuthorized(json.id)
+        if (json.status !== 500){
+          this.props.handleLogin(json.name, json.id, localStorage.getItem('jwt_token'))
+          this.props.isUserAuthorized(json.id)
+          this.props.getPlaylists()
+        }
       })
     }
+
   }
 
   render() {
@@ -59,6 +68,7 @@ class App extends Component {
         <MenuRight />
         <SongContainer container={this.props.container} searchResults={this.props.searchResults}/>
         <SongPlayer />
+        <Route path='/signup' render={ (props) => {return <Signup {...props} />}} />
         <Route path='/authorize' component={() => window.location = auth}/>
         <Route path='/login' render={ (props) => {return <Login {...props} />}} />
         <Route exact path="/callback" render={ (props) => {return <CallbackSpotify {...props} />}} />
@@ -84,11 +94,14 @@ function mapDispatchToProps(dispatch) {
     signOut: () => {
       dispatch(signOut())
     },
-    handleLogin: (name, user_id) => {
-      dispatch(loginUser(name, user_id))
+    handleLogin: (name, user_id, jwt_token) => {
+      dispatch(loginUser(name, user_id, jwt_token))
     },
     isUserAuthorized: (user_id) => {
       dispatch(isUserAuthorized(user_id))
+    },
+    getPlaylists: () => {
+      dispatch(getPlaylists())
     }
   }
 }

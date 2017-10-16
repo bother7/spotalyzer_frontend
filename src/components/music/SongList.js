@@ -21,7 +21,7 @@ componentDidMount(){
 }
 
 mapSongs = (array) => {
-    return array.map((row) => {return (<tr>{row.title}<td>{row.artist}</td><td><button onClick={this.handlePlay} data-uri={row.uri}>Play Song</button></td><td><button onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td draggable="true" data-uri={row.uri}>{row.title}</td><td>{row.artist}</td><td><button onClick={this.handlePlay} data-uri={row.uri}>Play Song</button></td><td><button onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td></tr>)})
   }
 
   render () {

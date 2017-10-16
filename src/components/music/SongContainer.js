@@ -2,6 +2,7 @@ import React from 'react';
 import SongVisual from './SongVisual'
 import SongList from './SongList'
 import ErrorContainer from '../user_interface/ErrorContainer'
+import PlaylistContainer from './PlaylistContainer'
 
 
 export default class SongContainer extends React.Component {
@@ -22,6 +23,12 @@ export default class SongContainer extends React.Component {
         return (
           <div className="center">
           <ErrorContainer />
+          </div>
+        )
+      case 'playlist':
+        return (
+          <div className="center">
+          <PlaylistContainer />
           </div>
         )
       default:
