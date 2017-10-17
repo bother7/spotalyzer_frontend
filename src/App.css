@@ -46,13 +46,14 @@
   margin-right: 15px;
   grid-column: 3 / 4;
   grid-row: 2 / 4;
-  grid-template-rows: 50% 50%;
 }
 
 .playlists {
-
-  min-width: 100%;
-  min-height: 50%;
+  overflow:auto;
+  position:fixed;
+  width: 236px;
+  bottom: 257px;
+  top: 45px;
   border: solid black 2px;
   border-radius: 20px;
   padding: 2px;
@@ -60,24 +61,34 @@
 }
 
 .saved {
+  position:fixed;
   margin-top: 5px;
-  min-width: 100%;
-  min-height: 46.5%;
+  width: 236px;
+  height: 245px;
   border: solid black 2px;
   border-radius: 20px;
   padding: 2px;
+  bottom:5px;
+
 }
 
 .center {
+  position: fixed;
   grid-column: 2 / 3;
   grid-row: 2 / 3;
   border: solid black 2px;
-  max-height: 640px;
-  overflow-y: auto;
+  top: 45px;
+  bottom: 85px;
+  left: 155px;
+  right: 255px;
+  overflow: auto;
   border-radius: 20px;
   padding: 2px;
 }
 
+.listSmall {
+  font-size: 15px;
+}
 .songTable {
 
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { getPlaylists, createPlaylist, deletePlaylist, newCurrentPlaylist} from '../../actions/index'
+import { getPlaylists, createPlaylist, deletePlaylist, newCurrentPlaylist, playCurrentPlaylist} from '../../actions/index'
 
 class MenuRight extends React.Component {
 
@@ -19,6 +19,10 @@ class MenuRight extends React.Component {
     this.props.createNewPlaylist(this.state.playlistName)
   }
 
+  handlePlayPlaylist = (event) => {
+    event.preventDefault()
+    this.props.playCurrentPlaylist(this.props.currentPlaylist)
+  }
 
   handleKeyUp = (event) => {
     event.preventDefault()
@@ -27,7 +31,7 @@ class MenuRight extends React.Component {
 
   handleDelete = (event) => {
     event.preventDefault()
-    this.props.deletePlaylist(event.target.dataset.id)
+    this.props.deletePlaylist(this.props.currentPlaylist)
   }
 
   handleOption = (event) => {
@@ -40,14 +44,14 @@ class MenuRight extends React.Component {
       var list = this.props.recentPlaylists.map((playlist) => {
         return (<option value={playlist.id}>{playlist.name}</option>)
       })
-      return (<select onChange={this.handleOption} value={this.props.currentPlaylist}>{list}</select>)
+      return (<select onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled selected>Select a Playlist</option>{list}</select>)
     }
   }
 
   playlistSongs = () => {
     if (this.props.currentPlaylistSongs !== []) {
       var array = this.props.currentPlaylistSongs.map((song) => {
-        return (<li>{song.title}</li>)
+        return (<li className="listSmall">{song.title}</li>)
       })
       return array
     }
@@ -61,6 +65,8 @@ class MenuRight extends React.Component {
         <button type="submit">Create Playlist</button>
         </form>
       {this.playlistOptions()}<br></br>
+    <button onClick={this.handleDelete}>Remove Current Playlist</button>
+    <button onClick={this.handlePlayPlaylist}>Play Current Playlist</button>
     {this.playlistSongs()}
       </div>
       <div className="saved">
@@ -93,6 +99,9 @@ function mapDispatchToProps(dispatch) {
     },
     newCurrentPlaylist: (id) => {
       dispatch(newCurrentPlaylist(id))
+    },
+    playCurrentPlaylist: (id) => {
+      dispatch(playCurrentPlaylist(id))
     }
   }
 }

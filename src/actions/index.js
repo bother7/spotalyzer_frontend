@@ -8,6 +8,10 @@ export function authorizeUser () {
   return {type: 'AUTHORIZE_USER'}
 }
 
+export function clearPlaylistSongs (){
+  return {type: 'CLEAR_PLAYLIST_SONGS'}
+}
+
 export function createPlaylist (name) {
   return function (dispatch) {
     fetch(`${env_url}/playlists`, {
@@ -45,6 +49,7 @@ export function deletePlaylist (id) {
        }
     }).then(resp => resp.json())
     .then((json) => {
+      dispatch(clearPlaylistSongs())
       dispatch(retrievePlaylists(json))
     })
   }
@@ -89,7 +94,6 @@ export function getPlaylists(){
     .then((json) => {
       if (!json.error) {
         dispatch(retrievePlaylists(json))
-        dispatch(newCurrentPlaylist(json[0].id))
       }
     })
   }
@@ -143,6 +147,10 @@ export function newCurrentPlaylist (id) {
         dispatch(storePlaylistSongs(json))
       }})
   }
+}
+
+export function playCurrentPlaylist(id) {
+  return {type: 'PLAY_CURRENT_PLAYLIST', payload: id}
 }
 
 export function playSong(uri) {

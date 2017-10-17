@@ -18,6 +18,9 @@ export default function songs(state = {song: null, loading: false, searchResults
       return {...state, recentlyPlayed: action.payload}
     case 'SIGN_OUT':
       return {...state, song: null, loading: false, searchResults: [], container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}
+      // song reducer handles render of center box so play current playlist goes here
+    case 'PLAY_CURRENT_PLAYLIST':
+      return {...state, container: "playlist"}
     default:
       return state
   }

@@ -40,6 +40,14 @@ mapSongs = (array) => {
         }
         return (<table className="songTable">{tablerows}</table>)
       }
+      else if (this.props.container === "playlist") {
+        if (this.props.currentPlaylistSongs !== []) {
+          var tablerows = this.mapSongs(this.props.currentPlaylistSongs)
+        } else {
+          var tablerows = null
+        }
+        return (<table className="songTable">{tablerows}</table>)
+      }
       else {
         return (<div></div>)
       }
@@ -53,7 +61,8 @@ function mapStateToProps(state) {
     recentlyPlayed: state.songs.recentlyPlayed,
     searchResults: state.songs.searchResults,
     container: state.songs.container,
-    username: state.users.username
+    username: state.users.username,
+    currentPlaylistSongs: state.playlists.currentPlaylistSongs
   }
 }
 
