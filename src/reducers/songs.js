@@ -2,6 +2,8 @@
 
 export default function songs(state = {song: null, loading: false, searchResults: [], container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}, action) {
   switch (action.type) {
+    case 'AUTHORIZE_USER':
+      return {...state, container: "welcome"}
     case 'CURRENT_SONG':
       return {...state, song: action.name}
     case 'CURRENTLY_LOADING':

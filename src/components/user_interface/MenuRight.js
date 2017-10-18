@@ -8,7 +8,7 @@ class MenuRight extends React.Component {
     playlistName: ""
   }
 
-  componentDidMount () {
+  componentDidMount (){
     if (this.props.username !== "" && this.props.isAuthorized) {
       this.props.getPlaylists()
     }
