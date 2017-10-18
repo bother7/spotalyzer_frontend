@@ -80,8 +80,11 @@ class MenuRight extends React.Component {
         return (<option value={playlist.id}>{playlist.name}</option>)
       })
       return (<select onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled selected>Select a Playlist</option>{list}</select>)
+    } else {
+      return (<select onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled selected>No Playlists to Choose From</option></select>)
     }
   }
+
 
   playlistSongs = () => {
     if (this.props.currentPlaylistSongs.length > 0) {
