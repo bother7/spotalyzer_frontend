@@ -9,7 +9,7 @@ export default function users(state = {recentPlaylists: [], currentPlaylist: "",
     case 'SEND_CURRENT_PLAYLIST':
       return {...state, currentPlaylist: action.payload}
     case 'SIGN_OUT':
-      return {...state, recentPlaylists: [], currentPlaylist: ""}
+      return {...state, recentPlaylists: [], currentPlaylist: "", currentPlaylistSongs: [], fixedPlaylistSongs: []}
     case 'STORE_PLAYLIST_SONGS':
       return {...state, currentPlaylistSongs: action.payload}
     case 'PLAY_CURRENT_PLAYLIST':

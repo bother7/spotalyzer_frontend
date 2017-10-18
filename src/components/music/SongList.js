@@ -13,14 +13,15 @@ class Welcome extends React.Component {
   handleAddtoPlaylist = (event) => {
     event.preventDefault()
     console.log(event.target.dataset.id)
+      var origin_array
     if (this.props.container === "welcome") {
-      var origin_array = this.props.recentlyPlayed
+      origin_array = this.props.recentlyPlayed
     } else if (this.props.container === 'playlist') {
-      var origin_array = this.props.fixedPlaylistSongs
+      origin_array = this.props.fixedPlaylistSongs
     } else if (this.props.container === 'search') {
-      var origin_array = this.props.searchResults
+      origin_array = this.props.searchResults
     }
-    if (origin_array) {
+    if (origin_array.length > 0) {
       let addSong = origin_array.find(song => song.id.toString() === event.target.dataset.id)
       let tweaked_playlist = [...this.props.currentPlaylistSongs, addSong]
       this.props.tweakPlaylist(tweaked_playlist)
@@ -28,7 +29,7 @@ class Welcome extends React.Component {
   }
 
 componentDidMount(){
-  if (this.props.username !== "" && localStorage.getItem('jwt_token') !== null) {
+  if (this.props.username !== "" && this.props.isAuthorized && this.props.container === "welcome") {
     this.props.getRecent()
   }
 }
@@ -52,26 +53,27 @@ componentWillReceiveProps(nextProps){
   }
 
   render () {
+    var tablerows
     if (this.props.container === "welcome") {
       if (this.props.recentlyPlayed.length > 0) {
-        var tablerows = this.mapSongs(this.props.recentlyPlayed)
+        tablerows = this.mapSongs(this.props.recentlyPlayed)
       } else {
-        var tablerows = null
+        tablerows = null
       }
       return (<table className="songTable">{tablerows}</table>)
     } else if (this.props.container === "search"){
         if (this.props.searchResults.length > 0) {
-          var tablerows = this.mapSongs(this.props.searchResults)
+          tablerows = this.mapSongs(this.props.searchResults)
         } else {
-          var tablerows = null
+          tablerows = null
         }
         return (<table className="songTable">{tablerows}</table>)
       }
       else if (this.props.container === "playlist") {
         if (this.props.fixedPlaylistSongs.length > 0) {
-          var tablerows = this.mapSongs(this.props.fixedPlaylistSongs)
+          tablerows = this.mapSongs(this.props.fixedPlaylistSongs)
         } else {
-          var tablerows = null
+          tablerows = null
         }
         return (<table className="songTable">{tablerows}</table>)
       }
@@ -89,6 +91,7 @@ function mapStateToProps(state) {
     searchResults: state.songs.searchResults,
     container: state.songs.container,
     username: state.users.username,
+    isAuthorized: state.users.isAuthorized,
     fixedPlaylistSongs: state.playlists.fixedPlaylistSongs,
     recentPlaylists: state.playlists.recentPlaylists,
     currentPlaylist: state.playlists.currentPlaylist,

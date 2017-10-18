@@ -238,3 +238,7 @@ export function updatePlaylist(id, song_array) {
       })
   }
 }
+
+export function userMustAuth() {
+  return {type: 'USER_MUST_AUTH'}
+}

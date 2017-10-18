@@ -30,7 +30,7 @@ class CallbackSpotify extends React.Component {
 
   render() {
     console.log("callback reached")
-    return (<div className="authorize">callback station</div>)
+    return (<div className="center">Authorize Denied</div>)
   }
 }
 

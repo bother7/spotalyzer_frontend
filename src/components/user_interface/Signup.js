@@ -1,7 +1,7 @@
 import React from 'react'
 import {env_url} from '../data/environment'
 import {connect} from 'react-redux'
-import {loginUser} from '../../actions/index'
+import {loginUser, userMustAuth} from '../../actions/index'
 
 class Signup extends React.Component {
   state = {
@@ -45,6 +45,7 @@ class Signup extends React.Component {
       }).then(response => response.json())
       .then((userInfo) => {
         this.props.handleLogin(userInfo.name, userInfo.id, userInfo.jwt_token)
+        this.props.userMustAuth()
         return this.props.history.push('/')
       })
     } else {
@@ -83,6 +84,9 @@ function mapDispatchToProps(dispatch) {
   return {
     handleLogin: (name, user_id, jwt_token) => {
       dispatch(loginUser(name, user_id, jwt_token))
+    },
+    userMustAuth: () => {
+      dispatch(userMustAuth())
     }
   }
 }

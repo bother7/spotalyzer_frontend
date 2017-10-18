@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {searchTerm} from '../../actions/index'
 
+
 class MenuLeft extends React.Component {
   state = {
     search: "",
@@ -19,6 +20,19 @@ class MenuLeft extends React.Component {
     event.preventDefault()
     this.setState({searchFilter: event.target.value})
   }
+
+  // componentDidMount(){
+  //   fetch("http://127.0.0.1:4380/service/version.json?service=remote", {
+  //     method: 'GET',
+  //     headers: {
+  //       'Origin': 'https://open.spotify.com',
+  //       'Access-Control-Allow-Origin':'*'
+  //     },
+  //     mode: 'no-cors'
+  //   }).then(response => response.json())
+  //   .then(json => {debugger})
+  //
+  // }
   render () {
     return (<div className="menuleft">
     <form onSubmit={this.handleSubmit}>

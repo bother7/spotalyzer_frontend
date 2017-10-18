@@ -10,7 +10,7 @@ import CallbackSpotify from './components/user_interface/CallbackSpotify'
 import {connect} from 'react-redux'
 import Login from './components/user_interface/Login'
 import {auth} from './components/data/auth_url'
-import {goHome, signOut, loginUser, isUserAuthorized, getPlaylists} from './actions/index'
+import {goHome, signOut, loginUser, isUserAuthorized, getPlaylists, userMustAuth} from './actions/index'
 import {env_url} from './components/data/environment'
 import Signup from './components/user_interface/Signup'
 
@@ -19,11 +19,6 @@ import Signup from './components/user_interface/Signup'
 
 class App extends Component {
 
-
-
-  handleAuthorize = (event) => {
-    console.log("this worked", this.props.isAuthorized)
-  }
 
 
   signOut = (event) => {
@@ -57,7 +52,14 @@ class App extends Component {
         }
       })
     }
+  }
 
+  componentWillReceiveProps(nextProps){
+    if (localStorage.getItem('jwt_token') !== null && !nextProps.isAuthorized) {
+        this.props.userMustAuth()
+    } else if (localStorage.getItem('jwt_token') !== null && nextProps.isAuthorized && (this.props.container === null)) {
+        this.props.goHome()
+    }
   }
 
   render() {
@@ -106,6 +108,9 @@ function mapDispatchToProps(dispatch) {
     },
     getPlaylists: () => {
       dispatch(getPlaylists())
+    },
+    userMustAuth: () => {
+      dispatch(userMustAuth())
     }
 
   }

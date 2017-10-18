@@ -21,6 +21,8 @@ export default function songs(state = {song: null, loading: false, searchResults
       // song reducer handles render of center box so play current playlist goes here
     case 'PLAY_CURRENT_PLAYLIST':
       return {...state, container: "playlist"}
+    case 'USER_MUST_AUTH':
+      return {...state, container: "authorize"}
     default:
       return state
   }
