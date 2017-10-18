@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { getPlaylists, createPlaylist, deletePlaylist, newCurrentPlaylist, playCurrentPlaylist} from '../../actions/index'
+import { getPlaylists, createPlaylist, deletePlaylist, newCurrentPlaylist, playCurrentPlaylist, updatePlaylist, tweakPlaylist} from '../../actions/index'
 
 class MenuRight extends React.Component {
 
@@ -22,6 +22,7 @@ class MenuRight extends React.Component {
   handlePlayPlaylist = (event) => {
     event.preventDefault()
     this.props.playCurrentPlaylist(this.props.currentPlaylist)
+    this.props.history.push(`/playlists/${this.props.currentPlaylist}`)
   }
 
   handleKeyUp = (event) => {
@@ -34,13 +35,47 @@ class MenuRight extends React.Component {
     this.props.deletePlaylist(this.props.currentPlaylist)
   }
 
+  moveUp = (event) => {
+    event.preventDefault()
+    let position = this.props.currentPlaylistSongs.findIndex(song => song.id.toString() === event.target.dataset.id)
+    let new_arr = this.props.currentPlaylistSongs
+    let temp = new_arr[position]
+    new_arr[position] = new_arr[position-1]
+    new_arr[position-1] = temp
+    this.props.tweakPlaylist([])
+    this.props.tweakPlaylist(new_arr)
+  }
+
+  moveDown = (event) => {
+    event.preventDefault()
+    let position = this.props.currentPlaylistSongs.findIndex(song => song.id.toString() === event.target.dataset.id)
+    let new_arr = this.props.currentPlaylistSongs
+    let temp = new_arr[position]
+    new_arr[position] = new_arr[position+1]
+    new_arr[position+1] = temp
+    this.props.tweakPlaylist([])
+    this.props.tweakPlaylist(new_arr)
+  }
+
+  removeSongFromPlaylist = (event) => {
+    event.preventDefault()
+    let new_arr = this.props.currentPlaylistSongs.filter(song => song.id.toString() !== event.target.dataset.id)
+    this.props.tweakPlaylist(new_arr)
+  }
+
+  updatePlaylist = (event) => {
+    event.preventDefault()
+    this.props.updatePlaylist(this.props.currentPlaylist, this.props.currentPlaylistSongs)
+  }
+
   handleOption = (event) => {
     event.preventDefault()
     this.props.newCurrentPlaylist(event.target.value)
   }
 
+
   playlistOptions = () => {
-    if (this.props.recentPlaylists !== []) {
+    if (this.props.recentPlaylists.length > 0) {
       var list = this.props.recentPlaylists.map((playlist) => {
         return (<option value={playlist.id}>{playlist.name}</option>)
       })
@@ -49,9 +84,9 @@ class MenuRight extends React.Component {
   }
 
   playlistSongs = () => {
-    if (this.props.currentPlaylistSongs !== []) {
-      var array = this.props.currentPlaylistSongs.map((song) => {
-        return (<li className="listSmall">{song.title}</li>)
+    if (this.props.currentPlaylistSongs.length > 0) {
+      let array = this.props.currentPlaylistSongs.map((song) => {
+        return (<li className="listSmall">{song.title} <button onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button data-id={song.id} onClick={this.moveUp}>↑</button><button data-id={song.id} onClick={this.moveDown}>↓</button></li>)
       })
       return array
     }
@@ -68,6 +103,7 @@ class MenuRight extends React.Component {
     <button onClick={this.handleDelete}>Remove Current Playlist</button>
     <button onClick={this.handlePlayPlaylist}>Play Current Playlist</button>
     {this.playlistSongs()}
+    <button onClick={this.updatePlaylist}>Update Playlist</button>
       </div>
       <div className="saved">
       saved stuff here<br></br>
@@ -102,6 +138,12 @@ function mapDispatchToProps(dispatch) {
     },
     playCurrentPlaylist: (id) => {
       dispatch(playCurrentPlaylist(id))
+    },
+    updatePlaylist: (id, song_array) => {
+      dispatch(updatePlaylist(id, song_array))
+    },
+    tweakPlaylist: (array) => {
+      dispatch(tweakPlaylist(array))
     }
   }
 }

@@ -12,23 +12,23 @@ export default class SongContainer extends React.Component {
       case 'visualize':
         return (
         <div className="center">
-        <SongVisual />
+        <SongVisual {...this.props}/>
         </div>)
       case 'welcome', 'search', 'playlist':
         return (
           <div className="center">
-          <SongList />
+          <SongList {...this.props}/>
           </div>)
       case 'error':
         return (
           <div className="center">
-          <ErrorContainer />
+          <ErrorContainer {...this.props}/>
           </div>
         )
       default:
         return (
           <div className="center">
-          <SongList />
+          <SongList {...this.props}/>
           </div>)
         }
     }

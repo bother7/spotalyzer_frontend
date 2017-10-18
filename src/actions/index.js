@@ -50,7 +50,9 @@ export function deletePlaylist (id) {
     }).then(resp => resp.json())
     .then((json) => {
       dispatch(clearPlaylistSongs())
-      dispatch(retrievePlaylists(json))
+      if (!json.error) {
+        dispatch(retrievePlaylists(json))
+      }
     })
   }
 }
@@ -82,6 +84,7 @@ export function finishLoading () {
 }
 
 export function getPlaylists(){
+  console.log("hello")
   return function(dispatch) {
     fetch(`${env_url}/playlists/recent`, {
       method: 'GET',
@@ -92,6 +95,7 @@ export function getPlaylists(){
     })
     .then((resp) => resp.json())
     .then((json) => {
+      console.log(json)
       if (!json.error) {
         dispatch(retrievePlaylists(json))
       }
@@ -203,6 +207,34 @@ export function sendLogin(name, user_id, jwt_token) {
 export function signOut() {
   return {type: 'SIGN_OUT'}
 }
+
 export function storePlaylistSongs(json) {
   return {type: 'STORE_PLAYLIST_SONGS', payload: json}
+}
+
+export function tweakPlaylist(song_array) {
+  return {type: 'TWEAK_PLAYLIST', payload: song_array}
+}
+
+export function updatePlaylist(id, song_array) {
+  return function (dispatch){
+    fetch(`${env_url}/playlists/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+        },
+        body: JSON.stringify({
+            song_array: song_array
+          })
+      })
+      .then((resp) => resp.json())
+      .then(json => {
+        if (json.snapshot_id){
+          alert("success")
+        } else {
+          alert("update was not successful")
+        }
+      })
+  }
 }

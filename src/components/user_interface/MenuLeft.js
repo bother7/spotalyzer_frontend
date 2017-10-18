@@ -13,6 +13,7 @@ class MenuLeft extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault()
     this.props.searchSpotify(this.state.search, this.state.searchFilter)
+    this.props.history.push("/")
   }
   handleOption = (event) => {
     event.preventDefault()

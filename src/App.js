@@ -64,15 +64,19 @@ class App extends Component {
     return (
       <div className="wrapper">
         <Nav handleAuthorize={this.handleAuthorize} signOut={this.signOut} goHome={this.goHome}/>
-        <MenuLeft />
-        <MenuRight />
-        <SongContainer container={this.props.container} searchResults={this.props.searchResults}/>
+        <MenuLeft {...this.props} />
+        <MenuRight {...this.props} />
         <SongPlayer />
         <Route path='/signup' render={ (props) => {return <Signup {...props} />}} />
         <Route path='/authorize' component={() => window.location = auth}/>
         <Route path='/login' render={ (props) => {return <Login {...props} />}} />
         <Route exact path="/callback" render={ (props) => {return <CallbackSpotify {...props} />}} />
-      </div>
+        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} searchResults={this.props.searchResults}/>}}/>
+        <Route exact path='/playlists/:id' render={(props) => {
+            return <SongContainer {...props} container={"playlist"} searchResults={this.props.searchResults}/>}}/>
+        <Route exact path='/songs/:id' render={(props) => {
+            return <SongContainer {...props} container={"visualize"} searchResults={this.props.searchResults}/>}}/>
+  </div>
   );
   }
 }
@@ -103,6 +107,7 @@ function mapDispatchToProps(dispatch) {
     getPlaylists: () => {
       dispatch(getPlaylists())
     }
+
   }
 }
 
