@@ -42,6 +42,19 @@ class Welcome extends React.Component {
     }
   }
 
+  handlePlayPlaylist = (event) => {
+    event.preventDefault()
+    let playlist = this.props.searchResults.find(playlist => playlist.id.toString() === event.target.dataset.id)
+    this.props.playSearchPlaylist(playlist)
+    this.props.history.push(`/playlists/${event.target.dataset.id}`)
+  }
+
+  handleSavePlaylist = (event) => {
+    event.preventDefault()
+    let playlist = this.props.searchResults.find(playlist => playlist.id.toString() === event.target.dataset.id)
+    this.props.savePlaylist(playlist)
+  }
+
 componentDidMount(){
   if (this.props.username !== "" && this.props.isAuthorized && this.props.container === "welcome") {
     this.props.fetchRecent()
@@ -64,6 +77,9 @@ componentWillReceiveProps(nextProps){
   if (this.props.history.location.pathname.startsWith("/search") && (this.props.searchResults.length === 0)){
     this.props.searchTerm(this.props.match.params.search, this.props.match.params.filter)
   }
+  if ((this.props.match.params.search !== nextProps.match.params.search) || (this.props.match.params.filter !== nextProps.match.params.filter)){
+    this.props.searchTerm(nextProps.match.params.search, nextProps.match.params.filter)
+  }
 }
 
   mapSongs = (array) => {
@@ -71,7 +87,7 @@ componentWillReceiveProps(nextProps){
   }
 
   mapPlaylists = (array) => {
-    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.name}</td><td><button onClick={this.handlePlayPlaylist} data-id={row.id} data-uri={row.uri}>Play Playlist</button></td><td><button onClick={this.handleSavePlaylist} data-id={row.id}>Save Playlist</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.name}</td><td><button onClick={this.handlePlayPlaylist} data-id={row.id} >Play Playlist</button></td><td><button onClick={this.handleSavePlaylist} data-id={row.id}>Save Playlist</button></td></tr>)})
   }
 
   render () {

@@ -2,6 +2,8 @@
 
 export default function users(state = {recentPlaylists: [], currentPlaylist: "", currentPlaylistSongs: [], fixedPlaylistSongs: [], savedSongs: []}, action) {
   switch (action.type) {
+    case 'ADD_PLAYLIST_TO_RECENT':
+      return {...state, recentPlaylists: [...state.recentPlaylists, action.payload]}
     case 'GET_PLAYLISTS':
       return {...state, recentPlaylists: action.payload}
     case 'CLEAR_PLAYLIST_SONGS':

@@ -1,5 +1,9 @@
 import { env_url } from '../components/data/environment'
 
+export function addPlaylistToRecent(playlist) {
+  return {type: 'ADD_PLAYLIST_TO_RECENT', payload: playlist}
+}
+
 export function addToPlaylist (song_id) {
   return {type: 'ADD_TO_PLAYLIST', payload: song_id}
 }
@@ -177,6 +181,25 @@ export function playCurrentPlaylist(id) {
   return {type: 'PLAY_CURRENT_PLAYLIST', payload: id}
 }
 
+export function playSearchPlaylist(playlist) {
+  return function (dispatch) {
+    dispatch(addPlaylistToRecent(playlist))
+    dispatch(sendCurrentPlaylist(playlist.id))
+    fetch(`${env_url}/playlists/${playlist.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (json.status !== "error"){
+        dispatch(storePlaylistSongs(json))
+      }}).then(ok => dispatch(playCurrentPlaylist(playlist.id)))
+  }
+}
+
 export function playSong(uri) {
   return {type: 'LOAD_SONG', payload: uri}
 }
@@ -187,6 +210,25 @@ export function removeUser () {
 
 export function retrievePlaylists(json){
     return {type: 'GET_PLAYLISTS', payload: json}
+}
+
+export function savePlaylist(playlist) {
+  return function (dispatch) {
+    dispatch(addPlaylistToRecent(playlist))
+    dispatch(sendCurrentPlaylist(playlist.id))
+    fetch(`${env_url}/playlists/${playlist.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (json.status !== "error"){
+        dispatch(storePlaylistSongs(json))
+      }})
+  }
 }
 
 export function searchTerm (search, searchFilter) {
