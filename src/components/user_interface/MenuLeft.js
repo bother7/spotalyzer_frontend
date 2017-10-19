@@ -1,23 +1,23 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {toggleSearch, setSearchFilter} from '../../actions/index'
+// import {connect} from 'react-redux'
+// import {setSearchFilter} from '../../actions/index'
 
 
 class MenuLeft extends React.Component {
   state = {
-    search: ""
+    search: "",
+    localSearchFilter: "track"
   }
   handleKey = (event) => {
     this.setState({search: event.target.value})
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.toggleSearch()
-    this.props.history.push(`/search&q=${this.state.search}&filter=${this.props.searchFilter}`)
+    this.props.history.push(`/search&q=${this.state.search}&filter=${this.state.localSearchFilter}`)
   }
   handleOption = (event) => {
     event.preventDefault()
-    this.props.setSearchFilter(event.target.value)
+    this.setState({localSearchFilter: event.target.value})
   }
 
   // componentDidMount(){
@@ -36,7 +36,7 @@ class MenuLeft extends React.Component {
     return (<div className="menuleft">
     <form onSubmit={this.handleSubmit}>
     <input type="text" placeholder="Type Search Here" onKeyUp={this.handleKey}/>
-    <select onChange={this.handleOption} value={this.state.searchFilter}>
+    <select onChange={this.handleOption} value={this.state.localSearchFilter}>
     <option value="track">Track</option>
     <option value="playlist">Playlist</option>
     </select>
@@ -49,23 +49,7 @@ class MenuLeft extends React.Component {
 
 }
 
-function mapStateToProps(state) {
-  return {
-    searchFilter: state.songs.searchFilter
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleSearch: () => {
-      dispatch(toggleSearch())
-    },
-    setSearchFilter: (searchFilter) => {
-      dispatch(setSearchFilter(searchFilter))
-    }
-  }
-}
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuLeft)
+export default MenuLeft

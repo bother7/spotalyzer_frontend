@@ -10,6 +10,8 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 
+
+
 const loggerMiddleware = createLogger()
 let store = createStore(reducer,
   applyMiddleware(

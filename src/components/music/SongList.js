@@ -49,7 +49,7 @@ componentDidMount(){
 }
 
 componentWillReceiveProps(nextProps){
-    console.log(this.props)
+  console.log(this.props.match)
   if (this.props.recentPlaylists !== nextProps.recentPlaylists){
     if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylist === "")){
       const id = this.props.history.location.pathname.split("/playlists/")[1]
@@ -61,9 +61,8 @@ componentWillReceiveProps(nextProps){
   if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylistSongs !== nextProps.currentPlaylistSongs) && (this.props.fixedPlaylistSongs.length === 0)){
     this.props.playCurrentPlaylist(this.props.currentPlaylist)
   }
-  if (nextProps.history.location.pathname.startsWith("/search")){
-    debugger
-    this.props.searchTerm()
+  if (this.props.history.location.pathname.startsWith("/search") && (this.props.searchResults.length === 0)){
+    this.props.searchTerm(this.props.match.params.search, this.props.match.params.filter)
   }
 }
 
@@ -76,6 +75,7 @@ componentWillReceiveProps(nextProps){
   }
 
   render () {
+    console.log(this.props)
     var tablerows
     if (this.props.container === "welcome") {
       if (this.props.recentlyPlayed.length > 0) {

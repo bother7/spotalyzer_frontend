@@ -79,6 +79,11 @@ export function fetchRecent () {
   }
 }
 
+export function fetchSearchResults(json, searchFilter) {
+  return {type: 'SEARCH_RESULTS', payload: json, filter: searchFilter}
+}
+
+
 export function finishLoading () {
   return {type: 'FINISH_LOADING'}
 }
@@ -184,11 +189,6 @@ export function retrievePlaylists(json){
     return {type: 'GET_PLAYLISTS', payload: json}
 }
 
-
-export function fetchSearchResults(json, searchFilter) {
-  return {type: 'SEARCH_RESULTS', payload: json}
-}
-
 export function searchTerm (search, searchFilter) {
   return function(dispatch) {
     dispatch(currentlyLoading())
@@ -205,7 +205,7 @@ export function searchTerm (search, searchFilter) {
     })
     .then((resp) => resp.json())
     .then((json) => {
-      dispatch(fetchSearchResults(json))
+      dispatch(fetchSearchResults(json, searchFilter))
       dispatch(finishLoading())
     })
   }
@@ -217,10 +217,6 @@ export function sendCurrentPlaylist (id) {
 
 export function sendLogin(name, user_id, jwt_token) {
     return {type: 'LOGIN_USER', name: name, user_id: user_id, jwt_token: jwt_token}
-}
-
-export function setSearchFilter(searchFilter) {
-  return {type: 'SET_SEARCH_FILTER', payload: searchFilter}
 }
 
 export function signOut() {
