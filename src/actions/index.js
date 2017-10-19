@@ -84,7 +84,6 @@ export function finishLoading () {
 }
 
 export function getPlaylists(){
-  console.log("hello")
   return function(dispatch) {
     fetch(`${env_url}/playlists/recent`, {
       method: 'GET',
@@ -95,9 +94,25 @@ export function getPlaylists(){
     })
     .then((resp) => resp.json())
     .then((json) => {
-      console.log(json)
       if (!json.error) {
         dispatch(retrievePlaylists(json))
+      }
+    })
+  }
+}
+
+export function getSaved() {
+  return function (dispatch) {
+    fetch(`${env_url}/saved`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    }).then(resp => resp.json())
+    .then(json => {
+      if (json.status !== "error") {
+        dispatch(storeSavedSongs(json))
       }
     })
   }
@@ -170,7 +185,7 @@ export function retrievePlaylists(json){
 }
 
 
-export function searchResults(json) {
+export function fetchSearchResults(json, searchFilter) {
   return {type: 'SEARCH_RESULTS', payload: json}
 }
 
@@ -190,7 +205,7 @@ export function searchTerm (search, searchFilter) {
     })
     .then((resp) => resp.json())
     .then((json) => {
-      dispatch(searchResults(json))
+      dispatch(fetchSearchResults(json))
       dispatch(finishLoading())
     })
   }
@@ -204,12 +219,24 @@ export function sendLogin(name, user_id, jwt_token) {
     return {type: 'LOGIN_USER', name: name, user_id: user_id, jwt_token: jwt_token}
 }
 
+export function setSearchFilter(searchFilter) {
+  return {type: 'SET_SEARCH_FILTER', payload: searchFilter}
+}
+
 export function signOut() {
   return {type: 'SIGN_OUT'}
 }
 
 export function storePlaylistSongs(json) {
   return {type: 'STORE_PLAYLIST_SONGS', payload: json}
+}
+
+export function storeSavedSongs(array) {
+  return {type: 'STORE_SAVED_SONGS', payload: array}
+}
+
+export function toggleSearch(){
+  return {type: 'TOGGLE_SEARCH'}
 }
 
 export function tweakPlaylist(song_array) {
@@ -241,4 +268,22 @@ export function updatePlaylist(id, song_array) {
 
 export function userMustAuth() {
   return {type: 'USER_MUST_AUTH'}
+}
+
+export function updateSavedSongs(array) {
+  return function (dispatch) {
+    dispatch(storeSavedSongs(array))
+    fetch(`${env_url}/saved`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      },
+      body: JSON.stringify({
+          song_array: array
+        })
+    }).then(resp => resp.json())
+    .then(json => {
+    })
+  }
 }

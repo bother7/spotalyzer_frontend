@@ -1,6 +1,6 @@
 
 
-export default function users(state = {recentPlaylists: [], currentPlaylist: "", currentPlaylistSongs: [], fixedPlaylistSongs: []}, action) {
+export default function users(state = {recentPlaylists: [], currentPlaylist: "", currentPlaylistSongs: [], fixedPlaylistSongs: [], savedSongs: []}, action) {
   switch (action.type) {
     case 'GET_PLAYLISTS':
       return {...state, recentPlaylists: action.payload}
@@ -16,6 +16,8 @@ export default function users(state = {recentPlaylists: [], currentPlaylist: "",
       return {...state, fixedPlaylistSongs: state.currentPlaylistSongs}
     case 'TWEAK_PLAYLIST':
       return {...state, currentPlaylistSongs: action.payload}
+    case 'STORE_SAVED_SONGS':
+      return {...state, savedSongs: action.payload}
     default:
       return state
   }

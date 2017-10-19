@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {fetchRecent, playSong, addToPlaylist, playCurrentPlaylist, newCurrentPlaylist, tweakPlaylist} from '../../actions/index'
+import * as actions from '../../actions'
 
 class Welcome extends React.Component {
 
@@ -10,10 +10,8 @@ class Welcome extends React.Component {
     this.props.history.push(`/songs/${event.target.dataset.id}`)
   }
 
-  handleAddtoPlaylist = (event) => {
-    event.preventDefault()
-    console.log(event.target.dataset.id)
-      var origin_array
+  targetArray = () => {
+    let origin_array
     if (this.props.container === "welcome") {
       origin_array = this.props.recentlyPlayed
     } else if (this.props.container === 'playlist') {
@@ -21,20 +19,37 @@ class Welcome extends React.Component {
     } else if (this.props.container === 'search') {
       origin_array = this.props.searchResults
     }
-    if (origin_array.length > 0) {
-      let addSong = origin_array.find(song => song.id.toString() === event.target.dataset.id)
+    return origin_array
+  }
+
+  handleAddtoPlaylist = (event) => {
+    event.preventDefault()
+    let target_array = this.targetArray()
+    if (target_array.length > 0) {
+      let addSong = target_array.find(song => song.id.toString() === event.target.dataset.id)
       let tweaked_playlist = [...this.props.currentPlaylistSongs, addSong]
       this.props.tweakPlaylist(tweaked_playlist)
     }
   }
 
+  handleAddtoSaved = (event) => {
+    event.preventDefault()
+    let target_array = this.targetArray()
+    if (target_array.length > 0) {
+      let addSong = target_array.find(song => song.id.toString() === event.target.dataset.id)
+      let tweaked_playlist = [...this.props.savedSongs, addSong]
+      this.props.updateSavedSongs(tweaked_playlist)
+    }
+  }
+
 componentDidMount(){
   if (this.props.username !== "" && this.props.isAuthorized && this.props.container === "welcome") {
-    this.props.getRecent()
+    this.props.fetchRecent()
   }
 }
 
 componentWillReceiveProps(nextProps){
+    console.log(this.props)
   if (this.props.recentPlaylists !== nextProps.recentPlaylists){
     if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylist === "")){
       const id = this.props.history.location.pathname.split("/playlists/")[1]
@@ -46,10 +61,18 @@ componentWillReceiveProps(nextProps){
   if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylistSongs !== nextProps.currentPlaylistSongs) && (this.props.fixedPlaylistSongs.length === 0)){
     this.props.playCurrentPlaylist(this.props.currentPlaylist)
   }
+  if (nextProps.history.location.pathname.startsWith("/search")){
+    debugger
+    this.props.searchTerm()
+  }
 }
 
   mapSongs = (array) => {
-    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.title}</td><td>{row.artist}</td><td><button onClick={this.handlePlay} data-id={row.id} data-uri={row.uri}>Play Song</button></td><td><button onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.title}</td><td>{row.artist}</td><td><button onClick={this.handlePlay} data-id={row.id} data-uri={row.uri}>Play Song</button></td><td><button onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td><td><button onClick={this.handleAddtoSaved} data-id={row.id}>Save Song</button></td></tr>)})
+  }
+
+  mapPlaylists = (array) => {
+    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.name}</td><td><button onClick={this.handlePlayPlaylist} data-id={row.id} data-uri={row.uri}>Play Playlist</button></td><td><button onClick={this.handleSavePlaylist} data-id={row.id}>Save Playlist</button></td></tr>)})
   }
 
   render () {
@@ -62,8 +85,10 @@ componentWillReceiveProps(nextProps){
       }
       return (<table className="songTable">{tablerows}</table>)
     } else if (this.props.container === "search"){
-        if (this.props.searchResults.length > 0) {
+        if (this.props.searchResults.length > 0 && this.props.searchFilter === "track") {
           tablerows = this.mapSongs(this.props.searchResults)
+        } else if (this.props.searchResults.length > 0 && this.props.searchFilter === "playlist"){
+          tablerows = this.mapPlaylists(this.props.searchResults)
         } else {
           tablerows = null
         }
@@ -95,31 +120,12 @@ function mapStateToProps(state) {
     fixedPlaylistSongs: state.playlists.fixedPlaylistSongs,
     recentPlaylists: state.playlists.recentPlaylists,
     currentPlaylist: state.playlists.currentPlaylist,
-    currentPlaylistSongs: state.playlists.currentPlaylistSongs
+    currentPlaylistSongs: state.playlists.currentPlaylistSongs,
+    savedSongs: state.playlists.savedSongs,
+    searchFilter: state.songs.searchFilter
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getRecent: () => {
-      dispatch(fetchRecent())
-    },
-    playSong: (uri) => {
-      dispatch(playSong(uri))
-    },
-    addToPlaylist: (song_id) => {
-      dispatch(addToPlaylist(song_id))
-    },
-    playCurrentPlaylist: (id) => {
-      dispatch(playCurrentPlaylist(id))
-    },
-    newCurrentPlaylist: (id) => {
-      dispatch(newCurrentPlaylist(id))
-    },
-    tweakPlaylist: (array) => {
-      dispatch(tweakPlaylist(array))
-    }
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
+
+export default connect(mapStateToProps, actions)(Welcome)

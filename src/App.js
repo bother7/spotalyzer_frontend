@@ -10,7 +10,7 @@ import CallbackSpotify from './components/user_interface/CallbackSpotify'
 import {connect} from 'react-redux'
 import Login from './components/user_interface/Login'
 import {auth} from './components/data/auth_url'
-import {goHome, signOut, loginUser, isUserAuthorized, getPlaylists, userMustAuth} from './actions/index'
+import * as actions from './actions'
 import {env_url} from './components/data/environment'
 import Signup from './components/user_interface/Signup'
 
@@ -46,9 +46,10 @@ class App extends Component {
       .then(response => response.json())
       .then((json) => {
         if (json.status !== 500){
-          this.props.handleLogin(json.name, json.id, localStorage.getItem('jwt_token'))
+          this.props.loginUser(json.name, json.id, localStorage.getItem('jwt_token'))
           this.props.isUserAuthorized(json.id)
           this.props.getPlaylists()
+          this.props.getSaved()
         }
       })
     }
@@ -73,12 +74,13 @@ class App extends Component {
         <Route path='/authorize' component={() => window.location = auth}/>
         <Route path='/login' render={ (props) => {return <Login {...props} />}} />
         <Route exact path="/callback" render={ (props) => {return <CallbackSpotify {...props} />}} />
-        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} searchResults={this.props.searchResults}/>}}/>
+        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} />}}/>
+        <Route path='/search' render={(props) => {return <SongContainer {...props} container="search" />}}/>
         <Route exact path='/playlists/:id' render={(props) => {
-            return <SongContainer {...props} container={"playlist"} searchResults={this.props.searchResults}/>}}/>
+            return <SongContainer {...props} container={"playlist"} />}}/>
         <Route exact path='/songs/:id' render={(props) => {
-            return <SongContainer {...props} container={"visualize"} searchResults={this.props.searchResults}/>}}/>
-  </div>
+            return <SongContainer {...props} container={"visualize"} />}}/>
+        </div>
   );
   }
 }
@@ -92,31 +94,9 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    goHome: () => {
-      dispatch(goHome())
-    },
-    signOut: () => {
-      dispatch(signOut())
-    },
-    handleLogin: (name, user_id, jwt_token) => {
-      dispatch(loginUser(name, user_id, jwt_token))
-    },
-    isUserAuthorized: (user_id) => {
-      dispatch(isUserAuthorized(user_id))
-    },
-    getPlaylists: () => {
-      dispatch(getPlaylists())
-    },
-    userMustAuth: () => {
-      dispatch(userMustAuth())
-    }
-
-  }
-}
 
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+export default connect(mapStateToProps, actions)(App)

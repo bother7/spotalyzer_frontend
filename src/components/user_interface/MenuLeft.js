@@ -1,24 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {searchTerm} from '../../actions/index'
+import {toggleSearch, setSearchFilter} from '../../actions/index'
 
 
 class MenuLeft extends React.Component {
   state = {
-    search: "",
-    searchFilter: "track"
+    search: ""
   }
   handleKey = (event) => {
     this.setState({search: event.target.value})
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.searchSpotify(this.state.search, this.state.searchFilter)
-    this.props.history.push("/")
+    this.props.toggleSearch()
+    this.props.history.push(`/search&q=${this.state.search}&filter=${this.props.searchFilter}`)
   }
   handleOption = (event) => {
     event.preventDefault()
-    this.setState({searchFilter: event.target.value})
+    this.props.setSearchFilter(event.target.value)
   }
 
   // componentDidMount(){
@@ -39,7 +38,6 @@ class MenuLeft extends React.Component {
     <input type="text" placeholder="Type Search Here" onKeyUp={this.handleKey}/>
     <select onChange={this.handleOption} value={this.state.searchFilter}>
     <option value="track">Track</option>
-    <option value="artist">Artist</option>
     <option value="playlist">Playlist</option>
     </select>
     <button type="submit">Search</button>
@@ -53,14 +51,17 @@ class MenuLeft extends React.Component {
 
 function mapStateToProps(state) {
   return {
-
+    searchFilter: state.songs.searchFilter
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchSpotify: (searchString, searchFilter) => {
-      dispatch(searchTerm(searchString, searchFilter))
+    toggleSearch: () => {
+      dispatch(toggleSearch())
+    },
+    setSearchFilter: (searchFilter) => {
+      dispatch(setSearchFilter(searchFilter))
     }
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { getPlaylists, createPlaylist, deletePlaylist, newCurrentPlaylist, playCurrentPlaylist, updatePlaylist, tweakPlaylist} from '../../actions/index'
+import * as actions from '../../actions/index'
 
 class MenuRight extends React.Component {
 
@@ -16,7 +16,7 @@ class MenuRight extends React.Component {
 
   handleCreatePlaylist = (event) => {
     event.preventDefault()
-    this.props.createNewPlaylist(this.state.playlistName)
+    this.props.createPlaylist(this.state.playlistName)
   }
 
   handlePlayPlaylist = (event) => {
@@ -63,6 +63,12 @@ class MenuRight extends React.Component {
     this.props.tweakPlaylist(new_arr)
   }
 
+  removeSongFromSaved = (event) => {
+    event.preventDefault()
+    let new_arr = this.props.savedSongs.filter(song => song.id.toString() !== event.target.dataset.id)
+    this.props.updateSavedSongs(new_arr)
+  }
+
   updatePlaylist = (event) => {
     event.preventDefault()
     this.props.updatePlaylist(this.props.currentPlaylist, this.props.currentPlaylistSongs)
@@ -85,11 +91,28 @@ class MenuRight extends React.Component {
     }
   }
 
+  handleAddToPlaylist = (event) => {
+    event.preventDefault()
+    if (this.props.savedSongs.length > 0) {
+      let addSong = this.props.savedSongs.find(song => song.id.toString() === event.target.dataset.id)
+      let tweaked_playlist = [...this.props.currentPlaylistSongs, addSong]
+      this.props.tweakPlaylist(tweaked_playlist)
+    }
+  }
 
   playlistSongs = () => {
     if (this.props.currentPlaylistSongs.length > 0) {
       let array = this.props.currentPlaylistSongs.map((song) => {
         return (<li className="listSmall">{song.title} <button onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button data-id={song.id} onClick={this.moveUp}>↑</button><button data-id={song.id} onClick={this.moveDown}>↓</button></li>)
+      })
+      return array
+    }
+  }
+
+  showSavedSongs = () => {
+    if (this.props.savedSongs.length > 0) {
+      let array = this.props.savedSongs.map((song) => {
+        return (<li className="listSmall">{song.title} <button onClick={this.removeSongFromSaved} data-id={song.id}>X</button><button onClick={this.handleAddToPlaylist} data-id={song.id}>Add to Playlist</button></li>)
       })
       return array
     }
@@ -109,7 +132,7 @@ class MenuRight extends React.Component {
     <button onClick={this.updatePlaylist}>Update Playlist</button>
       </div>
       <div className="saved">
-      saved stuff here<br></br>
+        {this.showSavedSongs()}
       </div>
     </div>)
   }
@@ -121,35 +144,10 @@ function mapStateToProps(state) {
     currentPlaylist: state.playlists.currentPlaylist,
     username: state.users.username,
     isAuthorized: state.users.isAuthorized,
-    currentPlaylistSongs: state.playlists.currentPlaylistSongs
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    createNewPlaylist: (name) => {
-      dispatch(createPlaylist(name))
-    },
-    deletePlaylist: (id) => {
-      dispatch(deletePlaylist(id))
-    },
-    getPlaylists: () => {
-      dispatch(getPlaylists())
-    },
-    newCurrentPlaylist: (id) => {
-      dispatch(newCurrentPlaylist(id))
-    },
-    playCurrentPlaylist: (id) => {
-      dispatch(playCurrentPlaylist(id))
-    },
-    updatePlaylist: (id, song_array) => {
-      dispatch(updatePlaylist(id, song_array))
-    },
-    tweakPlaylist: (array) => {
-      dispatch(tweakPlaylist(array))
-    }
+    currentPlaylistSongs: state.playlists.currentPlaylistSongs,
+    savedSongs: state.playlists.savedSongs
   }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuRight)
+export default connect(mapStateToProps, actions)(MenuRight)
