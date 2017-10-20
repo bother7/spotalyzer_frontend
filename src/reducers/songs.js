@@ -15,7 +15,7 @@ export default function songs(state = {song: null, loading: false, searchResults
     case 'LOAD_SONG':
       return {...state, uri: action.payload, container: "visualize"}
     case 'GO_HOME':
-      return {...state, container: "welcome"}
+      return {...state, container: "welcome", searchResults: []}
     case 'FETCH_RECENT':
       return {...state, recentlyPlayed: action.payload}
     case 'TOGGLE_SEARCH':
