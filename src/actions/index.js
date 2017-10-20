@@ -127,6 +127,19 @@ export function getSaved() {
   }
 }
 
+export function getSongAnalysis (id) {
+  return function(dispatch) {
+    fetch(`${env_url}/songs/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    }).then(resp => resp.json())
+    .then(json => dispatch(storeSongAnalysis(json)))
+  }
+}
+
 export function goHome () {
   return function(dispatch) {
     dispatch(fetchRecent())
@@ -201,7 +214,7 @@ export function playSearchPlaylist(playlist) {
 }
 
 export function playSong(uri) {
-  return {type: 'LOAD_SONG', payload: uri}
+    return {type: 'LOAD_SONG', payload: uri}
 }
 
 export function removeUser () {
@@ -271,6 +284,10 @@ export function storePlaylistSongs(json) {
 
 export function storeSavedSongs(array) {
   return {type: 'STORE_SAVED_SONGS', payload: array}
+}
+
+export function storeSongAnalysis(data) {
+  return {type: 'STORE_SONG_ANALYSIS', payload: data}
 }
 
 export function toggleSearch(){

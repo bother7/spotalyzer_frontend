@@ -6,8 +6,23 @@ class Welcome extends React.Component {
 
   handlePlay = (event) => {
     event.preventDefault()
-    this.props.playSong(event.target.dataset.uri)
-    this.props.history.push(`/songs/${event.target.dataset.id}`)
+    if (event.target.dataset.uri === "song unavailable"){
+      alert("song is unavailable on spotify")
+    } else {
+      this.props.playSong(event.target.dataset.uri)
+      this.props.getSongAnalysis(event.target.dataset.id)
+      this.props.history.push(`/songs/${event.target.dataset.id}`)
+    }
+  }
+
+  handleLogin = (event) => {
+    event.preventDefault()
+    this.props.history.push('/login')
+  }
+
+  handleSignup= (event) => {
+    event.preventDefault()
+    this.props.history.push('/signup')
   }
 
   targetArray = () => {
@@ -62,7 +77,6 @@ componentDidMount(){
 }
 
 componentWillReceiveProps(nextProps){
-  console.log(this.props.match)
   if (this.props.recentPlaylists !== nextProps.recentPlaylists){
     if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylist === "")){
       const id = this.props.history.location.pathname.split("/playlists/")[1]
@@ -80,6 +94,9 @@ componentWillReceiveProps(nextProps){
   if ((this.props.match.params.search !== nextProps.match.params.search) || (this.props.match.params.filter !== nextProps.match.params.filter)){
     this.props.searchTerm(nextProps.match.params.search, nextProps.match.params.filter)
   }
+  if (this.props.history.location.pathname.startsWith("/songs") && (this.props.container !== "visualize")){
+    this.props.getSongAnalysis(this.props.match.params.id)
+  }
 }
 
   mapSongs = (array) => {
@@ -91,14 +108,16 @@ componentWillReceiveProps(nextProps){
   }
 
   render () {
-    console.log(this.props)
     var tablerows
-    if (this.props.container === "welcome") {
-      if (this.props.recentlyPlayed.length > 0) {
-        tablerows = this.mapSongs(this.props.recentlyPlayed)
-      } else {
-        tablerows = null
-      }
+    if (this.props.username === "") {
+      return (<h1>Welcome to Spotalyzer. <a onClick={this.handleLogin}>Login</a> or <a onClick={this.handleSignup}>Signup</a> to Continue</h1>)
+    }
+    else if (this.props.container === "welcome") {
+        if (this.props.recentlyPlayed.length > 0) {
+          tablerows = this.mapSongs(this.props.recentlyPlayed)
+        } else {
+          tablerows = null
+        }
       return (<table className="songTable">{tablerows}</table>)
     } else if (this.props.container === "search"){
         if (this.props.searchResults.length > 0 && this.props.searchFilter === "track") {

@@ -1,6 +1,6 @@
 
 
-export default function songs(state = {song: null, loading: false, searchResults: [], searchFilter: "track",container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}, action) {
+export default function songs(state = {song: null, loading: false, songData: [], searchResults: [], searchFilter: "track",container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: []}, action) {
   switch (action.type) {
     case 'AUTHORIZE_USER':
       return {...state, container: "welcome"}
@@ -20,8 +20,10 @@ export default function songs(state = {song: null, loading: false, searchResults
       return {...state, recentlyPlayed: action.payload}
     case 'TOGGLE_SEARCH':
       return {...state, container: "search"}
+    case 'STORE_SONG_ANALYSIS':
+      return {...state, container: "visualize", songData: action.payload}
     case 'SIGN_OUT':
-      return {...state, song: null, loading: false, searchResults: [], container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: [], searchFilter: "track"}
+      return {...state, song: null, loading: false, searchResults: [], songData: [], container: null, uri: "spotify:track:5NIPsWpDjJTFBoPxCUUeXp", recentlyPlayed: [], searchFilter: "track"}
       // song reducer handles render of center box so play current playlist goes here
     case 'PLAY_CURRENT_PLAYLIST':
       return {...state, container: "playlist"}
