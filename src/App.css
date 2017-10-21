@@ -7,6 +7,19 @@
   margin-left: 5px;
 
 }
+
+.defButton {
+  border-radius: 4px;
+  border: solid #979696 2px;
+  background-color: transparent;
+}
+
+.defButton:hover {
+  background-color: #979696;
+  color: white;
+  border-radius: 4px;
+}
+
 .logo-box {
   height: 40px;
   width: 147px;
@@ -60,6 +73,14 @@
   margin-bottom: 5px;
 }
 
+input[type=text] {
+    margin-left: 5px;
+    background-color: white;
+    border: solid #979696 2px;
+    border-radius: 4px;
+    max-width: 100px;
+}
+
 .saved {
   position:fixed;
   margin-top: 5px;
@@ -88,6 +109,8 @@
 
 .listSmall {
   font-size: 15px;
+  padding-left: 5px;
+  margin: 5px;
 }
 .songTable {
 

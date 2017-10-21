@@ -71,7 +71,18 @@ class MenuRight extends React.Component {
 
   updatePlaylist = (event) => {
     event.preventDefault()
-    this.props.updatePlaylist(this.props.currentPlaylist, this.props.currentPlaylistSongs)
+    let badSongs = this.props.currentPlaylistSongs.find(song => song.uri === "song unavailable")
+    if (badSongs) {
+      if (badSongs.length > 1) {
+        badSongs = badSongs.map(song => song.title)
+        badSongs = badSongs.join(', ')
+      } else {
+        badSongs = badSongs.title
+      }
+      alert(`Playlist can't be updated because Spotify doesn't currently have ${badSongs}`)
+    } else {
+      this.props.updatePlaylist(this.props.currentPlaylist, this.props.currentPlaylistSongs)
+    }
   }
 
   handleOption = (event) => {
@@ -103,7 +114,7 @@ class MenuRight extends React.Component {
   playlistSongs = () => {
     if (this.props.currentPlaylistSongs.length > 0) {
       let array = this.props.currentPlaylistSongs.map((song) => {
-        return (<li className="listSmall">{song.title} <button onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button data-id={song.id} onClick={this.moveUp}>↑</button><button data-id={song.id} onClick={this.moveDown}>↓</button></li>)
+        return (<ul className="listSmall">{song.title} <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
       })
       return array
     }
@@ -112,7 +123,7 @@ class MenuRight extends React.Component {
   showSavedSongs = () => {
     if (this.props.savedSongs.length > 0) {
       let array = this.props.savedSongs.map((song) => {
-        return (<li className="listSmall">{song.title} <button onClick={this.removeSongFromSaved} data-id={song.id}>X</button><button onClick={this.handleAddToPlaylist} data-id={song.id}>Add to Playlist</button></li>)
+        return (<ul className="listSmall">{song.title} <button className="defButton" onClick={this.removeSongFromSaved} data-id={song.id}>X</button><button className="defButton" onClick={this.handleAddToPlaylist} data-id={song.id}>Add to Playlist</button></ul>)
       })
       return array
     }
@@ -123,13 +134,13 @@ class MenuRight extends React.Component {
       <div className="playlists">
         <form onSubmit={this.handleCreatePlaylist}>
         <input type="text" placeholder="Create Playlist Name" onKeyUp={this.handleKeyUp}></input>
-        <button type="submit">Create Playlist</button>
+        <button type="submit" className="defButton" >Create Playlist</button>
         </form>
       {this.playlistOptions()}<br></br>
-    <button onClick={this.handleDelete}>Remove Current Playlist</button>
-    <button onClick={this.handlePlayPlaylist}>Play Current Playlist</button>
-    {this.playlistSongs()}
-    <button onClick={this.updatePlaylist}>Update Playlist</button>
+    <button className="defButton" onClick={this.handleDelete}>Remove Current Playlist</button>
+    <button className="defButton" onClick={this.handlePlayPlaylist}>Play Current Playlist</button>
+    {this.playlistSongs()}<br></br>
+    <button className="defButton" onClick={this.updatePlaylist}>Update Playlist</button>
       </div>
       <div className="saved">
         {this.showSavedSongs()}

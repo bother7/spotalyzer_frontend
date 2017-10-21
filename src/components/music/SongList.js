@@ -100,11 +100,11 @@ componentWillReceiveProps(nextProps){
 }
 
   mapSongs = (array) => {
-    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.title}</td><td>{row.artist}</td><td><button onClick={this.handlePlay} data-id={row.id} data-uri={row.uri}>Play Song</button></td><td><button onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td><td><button onClick={this.handleAddtoSaved} data-id={row.id}>Save Song</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.title}</td><td>{row.artist}</td><td><button className="defButton" onClick={this.handlePlay} data-id={row.id} data-uri={row.uri}>Play Song</button></td><td><button className="defButton" onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td><td><button className="defButton" onClick={this.handleAddtoSaved} data-id={row.id}>Save Song</button></td></tr>)})
   }
 
   mapPlaylists = (array) => {
-    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.name}</td><td><button onClick={this.handlePlayPlaylist} data-id={row.id} >Play Playlist</button></td><td><button onClick={this.handleSavePlaylist} data-id={row.id}>Save Playlist</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.name}</td><td><button className="defButton" onClick={this.handlePlayPlaylist} data-id={row.id} >Play Playlist</button></td><td><button className="defButton" onClick={this.handleSavePlaylist} data-id={row.id}>Save Playlist</button></td></tr>)})
   }
 
   render () {
