@@ -1,7 +1,7 @@
 import { scaleLinear, scaleOrdinal} from '@vx/scale';
 import { max, min } from 'd3-array';
 
-export const width = 3000;
+export const width = 6000;
 
 export const height = 600;
 

@@ -1,25 +1,82 @@
 import React from 'react';
-import { scaleLinear, scaleOrdinal} from '@vx/scale';
-import { max, min } from 'd3-array';
-import { Stack } from '@vx/shape';
-import { curveBasis} from '@vx/curve'
-import { Group } from '@vx/group'
-import { AxisLeft, AxisBottom } from '@vx/axis';
-import * as pitchConstant from '../data/pitchConstant'
 import {connect} from 'react-redux'
 import {getSongAnalysis} from '../../actions'
-
-
+import { Group } from '@vx/group'
+import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
+import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
+import { extent, min, max } from 'd3-array';
+import { AxisLeft, AxisBottom } from '@vx/axis';
+import * as pitchConstant from '../data/pitchConstant'
+import * as heatmapConstant from '../data/heatmapConstant'
+import { Stack } from '@vx/shape'
+import {curveBasis} from '@vx/curve'
 
 
 
 class SongVisual extends React.Component {
+  state = {
+    heat: true,
+    stream: true
+  }
+
+  toggleHeat = (event) => {
+    event.preventDefault()
+    console.log("hello", this.state)
+    this.setState({heat: !this.state.heat})
+  }
+
+  toggleStream = (event) => {
+    event.preventDefault()
+    this.setState({stream: !this.state.stream})
+  }
 
 
   componentWillReceiveProps(nextProps){
     if (this.props.container === "welcome") {
       this.props.getSongAnalysis(this.props.match.params.id)
     }
+  }
+
+  heat () {
+    const heatmapData = heatmapConstant.theHeat(this.props.songData)
+    const dMin = min(heatmapData, d => min(heatmapConstant.y(d), heatmapConstant.x));
+    const dMax = max(heatmapData, d => max(heatmapConstant.y(d), heatmapConstant.x));
+    const dStep = dMax / heatmapData[0].bins.length;
+    const bWidth = pitchConstant.xMax / heatmapData.length;
+    const bHeight = pitchConstant.yMax / heatmapData[0].bins.length;
+    const colorMax = max(heatmapData, d => max(heatmapConstant.y(d), heatmapConstant.z));
+    const xScale = scaleLinear({
+      range: [0, pitchConstant.xMax],
+      domain: extent(heatmapData, heatmapConstant.x)
+    });
+    const yScale = scaleLinear({
+      range: [pitchConstant.yMax, 0],
+      domain: [dMin, dMax]
+    });
+    const colorScale = scaleLinear({
+      range: ['#c7cbdb', '#021872'],
+      domain: [0, colorMax]
+    });
+    const opacityScale = scaleLinear({
+      range: [.1, 1],
+      domain: [0, colorMax]
+    });
+    return (
+
+        <Group top={50}>
+          <HeatmapCircle
+            data={heatmapData}
+            xScale={xScale}
+            yScale={yScale}
+            colorScale={colorScale}
+            opacityScale = {opacityScale}
+            radius={4*bWidth}
+            step={dStep}
+            gap={1}
+          />
+        </Group>
+
+    )
   }
 
   stack() {
@@ -41,7 +98,7 @@ class SongVisual extends React.Component {
 
     const yScale = scaleLinear({
       range: [pitchConstant.yMax, 0],
-      domain: [-7, 7]
+      domain: [-5, 5]
     });
 
     const xScale = scaleLinear({
@@ -91,7 +148,7 @@ class SongVisual extends React.Component {
     //        stroke={'#1b1a1e'}
     //        tickTextFill={'#1b1a1e'}
     //      />
-    return (<svg width={pitchConstant.width} height={pitchConstant.height}>
+    return (
     <Group top={pitchConstant.margin.top} left={pitchConstant.margin.left}>
 
   <Stack
@@ -110,23 +167,46 @@ class SongVisual extends React.Component {
                       <path
                         d={path(series)}
                         fill={zScale(series.key)}
-                      />
+                        />
                     </g>
                   );
                 });
               }}
 
   /></Group>
-  </svg>)
+  )
 }
 
 
   render () {
-    {if (this.props.songData.length > 1) {
-      return (<div className="visualize">{this.stack()}</div>)
-    } else {
+    {
+        if (this.props.songData.length > 0 && this.state.heat && this.state.stream) {
+            return (<div className="visualize">
+            <button className="defButton" onClick={this.toggleHeat}>Timbre Heatmap</button>
+            <button className="defButton" onClick={this.toggleStream}>Pitch Stream</button>
+            <svg width={pitchConstant.width} height={pitchConstant.height}>
+            {this.heat()}{this.stack()}
+            </svg>
+            </div>)
+        } else if (this.props.songData.length > 0 && this.state.heat && !this.state.stream) {
+          return (<div className="visualize">
+            <button className="defButton" onClick={this.toggleHeat}>Timbre Heatmap</button>
+            <button className="defButton" onClick={this.toggleStream}>Pitch Stream</button>
+            <svg width={pitchConstant.width} height={pitchConstant.height}>
+            {this.heat()}
+            </svg>
+            </div>)
+        } else if (this.props.songData.length > 0 && !this.state.heat && this.state.stream) {
+          return (<div className="visualize">
+            <button className="defButton" onClick={this.toggleHeat}>Timbre Heatmap</button>
+            <button className="defButton" onClick={this.toggleStream}>Pitch Stream</button>
+            <svg width={pitchConstant.width} height={pitchConstant.height}>
+            {this.stack()}
+            </svg>
+            </div>)
+        } else {
       return (<div className="visualize">nothing</div>)
-    }
+      }
     }
   }
 
