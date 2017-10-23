@@ -136,7 +136,9 @@ export function getSongAnalysis (id) {
         'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
       }
     }).then(resp => resp.json())
-    .then(json => dispatch(storeSongAnalysis(json)))
+    .then(json => {
+      dispatch(playSong(json.uri))
+      dispatch(storeSongAnalysis(json.data))})
   }
 }
 

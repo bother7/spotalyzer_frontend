@@ -131,6 +131,12 @@ input[type=text] {
   min-height: 100%;
 }
 
+.visualize {
+  min-width: 100%;
+  min-height: 100%;
+  overflow-x: auto;
+}
+
 .player {
   grid-column: 2 / 3;
   grid-row: 3 / 4;
