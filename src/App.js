@@ -50,6 +50,7 @@ class App extends Component {
           this.props.isUserAuthorized(json.id)
           this.props.getPlaylists()
           this.props.getSaved()
+          this.props.getRecommendation()
         }
       })
     }

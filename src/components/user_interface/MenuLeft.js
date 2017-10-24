@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 
 class MenuLeft extends React.Component {
@@ -18,6 +19,9 @@ class MenuLeft extends React.Component {
     this.setState({localSearchFilter: event.target.value})
   }
 
+  mapRecommendations = () => {
+    
+  }
   render () {
     return (<div className="menuleft">
     <form onSubmit={this.handleSubmit}>
@@ -35,7 +39,11 @@ class MenuLeft extends React.Component {
 
 }
 
+function mapStateToProps(state) {
+  return {
+    recommendation: state.songs.recommendation
+  }
+}
 
 
-
-export default MenuLeft
+export default connect(mapStateToProps)(MenuLeft)

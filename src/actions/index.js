@@ -109,6 +109,22 @@ export function getPlaylists(){
     })
   }
 }
+export function getRecommendation() {
+  return function (dispatch) {
+    fetch(`${env_url}/recommendation`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem("jwt_token")}`
+      }
+    }).then(resp => resp.json())
+    .then(json => {
+      if (json.status !== "error") {
+        dispatch(storeRecommendation(json))
+      }
+    })
+  }
+}
 
 export function getSaved() {
   return function (dispatch) {
@@ -282,6 +298,10 @@ export function signOut() {
 
 export function storePlaylistSongs(json) {
   return {type: 'STORE_PLAYLIST_SONGS', payload: json}
+}
+
+export function storeRecommendation(json){
+  return {type: 'STORE_RECOMMENDATION', payload: json}
 }
 
 export function storeSavedSongs(array) {

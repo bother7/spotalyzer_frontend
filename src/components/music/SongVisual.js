@@ -63,7 +63,7 @@ class SongVisual extends React.Component {
     });
     return (
 
-        <Group top={50}>
+        <Group top={pitchConstant.margin.top} left={pitchConstant.margin.left}>
           <HeatmapCircle
             data={heatmapData}
             xScale={xScale}
@@ -179,27 +179,29 @@ class SongVisual extends React.Component {
 
 
   render () {
+    const leftStyle = {position:"fixed",left:'170px',top:'54px'}
+    const rightStyle = {position:"fixed",left:'280px',top:'54px'}
     {
         if (this.props.songData.length > 0 && this.state.heat && this.state.stream) {
             return (<div className="visualize">
-            <button className="defButton" onClick={this.toggleHeat}>Timbre Heatmap</button>
-            <button className="defButton" onClick={this.toggleStream}>Pitch Stream</button>
+            <button className="defButton" onClick={this.toggleHeat} style={leftStyle}>Timbre Heatmap</button>
+            <button className="defButton" onClick={this.toggleStream} style={rightStyle}>Pitch Stream</button>
             <svg width={pitchConstant.width} height={pitchConstant.height}>
             {this.heat()}{this.stack()}
             </svg>
             </div>)
         } else if (this.props.songData.length > 0 && this.state.heat && !this.state.stream) {
           return (<div className="visualize">
-            <button className="defButton" onClick={this.toggleHeat}>Timbre Heatmap</button>
-            <button className="defButton" onClick={this.toggleStream}>Pitch Stream</button>
+          <button className="defButton" onClick={this.toggleHeat} style={leftStyle}>Timbre Heatmap</button>
+          <button className="defButton" onClick={this.toggleStream} style={rightStyle}>Pitch Stream</button>
             <svg width={pitchConstant.width} height={pitchConstant.height}>
             {this.heat()}
             </svg>
             </div>)
         } else if (this.props.songData.length > 0 && !this.state.heat && this.state.stream) {
           return (<div className="visualize">
-            <button className="defButton" onClick={this.toggleHeat}>Timbre Heatmap</button>
-            <button className="defButton" onClick={this.toggleStream}>Pitch Stream</button>
+          <button className="defButton" onClick={this.toggleHeat} style={leftStyle}>Timbre Heatmap</button>
+          <button className="defButton" onClick={this.toggleStream} style={rightStyle}>Pitch Stream</button>
             <svg width={pitchConstant.width} height={pitchConstant.height}>
             {this.stack()}
             </svg>
