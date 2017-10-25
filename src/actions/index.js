@@ -30,8 +30,12 @@ export function createPlaylist (name) {
     })
     .then((resp) => resp.json())
     .then((json) => {
+      if (json.status !== 418){
       dispatch(getPlaylists())
-      dispatch(newCurrentPlaylist(json.id))})
+      dispatch(newCurrentPlaylist(json.id))
+    } else {
+      alert('playlist creation unsuccessful')
+    }})
   }
 }
 
@@ -119,7 +123,7 @@ export function getRecommendation() {
       }
     }).then(resp => resp.json())
     .then(json => {
-      if (json.status !== "error") {
+      if (json.status !== "error" && json.status !== 500) {
         dispatch(storeRecommendation(json))
       }
     })

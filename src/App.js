@@ -22,9 +22,32 @@ class App extends Component {
 
 
   signOut = (event) => {
-  localStorage.removeItem('jwt_token')
-  this.props.signOut()
+    localStorage.removeItem('jwt_token')
+    this.props.signOut()
   }
+
+  demoLogin = (event) => {
+
+      fetch(`${env_url}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: "demo",
+          password: "123"
+        })
+      })
+      .then(response => response.json())
+      .then(json => {
+        this.props.loginUser(json.name, json.id, json.jwt_token)
+        this.props.isUserAuthorized(json.id)
+        this.props.getPlaylists()
+        this.props.getSaved()
+        this.props.getRecommendation()
+        this.props.history.push('/')
+      })
+    }
 
   goHome = (event)  => {
     if (this.props.username !== "" && this.props.isAuthorized) {
@@ -67,7 +90,7 @@ class App extends Component {
   render() {
     return (
       <div className="wrapper">
-        <Nav handleAuthorize={this.handleAuthorize} signOut={this.signOut} goHome={this.goHome}/>
+        <Nav handleAuthorize={this.handleAuthorize} signOut={this.signOut} goHome={this.goHome} demoLogin={this.demoLogin}/>
         <MenuLeft {...this.props} />
         <MenuRight {...this.props} />
         <SongPlayer />

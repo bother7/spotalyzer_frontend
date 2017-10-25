@@ -23,6 +23,12 @@ class Nav extends React.Component {
     }
   }
 
+  renderDemo = () => {
+    if (this.props.username === "") {
+      return (<NavLink to="/" onClick={this.props.demoLogin} className="item">demo</NavLink>)
+    }
+  }
+
   renderLogout = () => {
     if (this.props.username !== "") {
       return (<NavLink to="/" onClick={this.props.signOut} className="item">logout</NavLink>)
@@ -39,6 +45,7 @@ class Nav extends React.Component {
           {this.renderLogin()}
           {this.renderAuthorize()}
           {this.renderLogout()}
+          {this.renderDemo()}
           <NavLink activeClassName="active" onClick={this.props.goHome} className="item" to="/">home</NavLink>
 
         </div>

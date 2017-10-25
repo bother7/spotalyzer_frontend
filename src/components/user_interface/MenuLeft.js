@@ -33,6 +33,7 @@ class MenuLeft extends React.Component {
   }
   handleSubmit = (event) => {
     event.preventDefault()
+    this.props.searchTerm(this.state.search, this.state.localSearchFilter)
     this.props.history.push(`/search&q=${this.state.search}&filter=${this.state.localSearchFilter}`)
   }
   handleOption = (event) => {
@@ -61,7 +62,7 @@ class MenuLeft extends React.Component {
   render () {
     return (<div className="menuleft">
     <form onSubmit={this.handleSubmit}>
-    <input type="text" placeholder="search..." onKeyUp={this.handleKey}/>
+    <input className="search" type="text" placeholder="search..." onKeyUp={this.handleKey}/>
     <select className="select" onChange={this.handleOption} value={this.state.localSearchFilter}>
     <option value="track">track</option>
     <option value="playlist">playlist</option>

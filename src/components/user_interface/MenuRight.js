@@ -157,7 +157,7 @@ class MenuRight extends React.Component {
     return (<div className="menuright">
       <div className="playlists">
         <form onSubmit={this.handleCreatePlaylist}>
-        <input type="text" placeholder="playlist name..." onKeyUp={this.handleKeyUp}></input>
+        <input type="text" className="search" placeholder="playlist name..." onKeyUp={this.handleKeyUp}></input>
         <button type="submit" className="defButton" >create playlist</button>
         </form>
         <p className="title">playlists</p>

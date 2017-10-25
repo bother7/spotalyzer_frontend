@@ -73,6 +73,7 @@ class Welcome extends React.Component {
 componentDidMount(){
   if (this.props.username !== "" && this.props.isAuthorized && this.props.container === "welcome") {
     this.props.fetchRecent()
+    this.props.getRecommendation()
   }
 }
 
