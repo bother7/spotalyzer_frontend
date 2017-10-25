@@ -1,30 +1,65 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:light,medium,black,regular,bold,italic');
 
 
-.navbar {
-  grid-column: 1 / 4;
-  grid-row: 1 /span 1;
-  margin-left: 5px;
-
+.authorize {
+  position:fixed;
+  left: 200px;
 }
+
+.bigSelect {
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border-radius: 10px;
+   height: 30px;
+   margin-left:5px;
+   min-width:225px;
+   max-width:225px;
+   font-size: 15px;
+   border: solid #242D49 2px;
+   background-color: #EFEFEF;
+}
+
+.center {
+  position: fixed;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  border: solid #242D49 2px;
+  top: 43px;
+  bottom: 90px;
+  left: 155px;
+  right: 254px;
+  overflow: auto;
+  border-radius: 20px;
+  padding: 2px;
+}
+
 
 .defButton {
   border-radius: 4px;
-  border: solid #979696 2px;
+  border: solid #242D49 2px;
   background-color: transparent;
+  margin-left: 2px;
+  margin-right: 2px;
+  color: #242D49;
 }
 
 .defButton:hover {
-  background-color: #979696;
+  background-color: #936676;
   color: white;
   border-radius: 4px;
+  border: solid #936676 2px;
 }
 
-.logo-box {
-  height: 40px;
-  width: 147px;
-  position:fixed;
+input[type=text] {
+
+    margin-left: 15px;
+    background-color: white;
+    border: solid #242D49 2px;
+    border-radius: 4px;
+    max-width: 100px;
+    height: 16px;
 }
+
 .item {
   display: inline-block;
   float: right;
@@ -32,32 +67,36 @@
   padding-left: 2px;
   padding-right: 2px;
 }
-.navbar-right{
-  margin-bottom: 5px;
-  margin-right: 5px;
-  max-height: 37px;
-  border-bottom: solid black 2px;
-  height: 40px;
-  position:fixed;
-  left: 152px;
-  right: 0px;
+
+.listSmall {
+  font-size: 15px;
+  padding-left: 0px;
+  margin: 2px;
 }
+
 .logo {
   float: left;
 }
+
+.logo-box {
+  height: 40px;
+  width: 147px;
+  position:fixed;
+}
+
 .menuleft {
   margin-left: 7px;
   grid-column: 1 / 2;
   grid-row: 2 / 4;
-  border: solid black 2px;
+  border: solid #242D49 2px;
   border-radius: 20px;
-  padding: 2px;
+
   margin-bottom: 5px;
   overflow-y: auto;
   position: fixed;
-  top: 45px;
+  top: 43px;
   bottom: 0px;
-  max-width: 136px;
+  max-width: 140px;
 }
 
 .menuright {
@@ -66,24 +105,44 @@
   grid-row: 2 / 4;
 }
 
+.navbar {
+  grid-column: 1 / 4;
+  grid-row: 1 /span 1;
+  margin-left: 5px;
+}
+
+.navbar-right{
+  margin-bottom: 5px;
+  margin-right: 10px;
+  max-height: 37px;
+  border-bottom: solid #242D49 2px;
+  height: 40px;
+  position:fixed;
+  left: 152px;
+  right: 0px;
+}
+.navbar-right a {
+    color: #242D49;
+    font-size: 22px;
+}
+
 .playlists {
-  overflow:auto;
+  overflow-y:auto;
   position:fixed;
   width: 236px;
   bottom: 257px;
-  top: 45px;
-  border: solid black 2px;
+  top: 43px;
+  border: solid #242D49 2px;
   border-radius: 20px;
-  padding: 2px;
+
   margin-bottom: 5px;
 }
 
-input[type=text] {
-    margin-left: 5px;
-    background-color: white;
-    border: solid #979696 2px;
-    border-radius: 4px;
-    max-width: 100px;
+
+.player {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+
 }
 
 .saved {
@@ -91,63 +150,57 @@ input[type=text] {
   margin-top: 5px;
   width: 236px;
   height: 245px;
-  border: solid black 2px;
+  border: solid #242D49 2px;
   border-radius: 20px;
-  padding: 2px;
+  overflow-y:auto;
   bottom:5px;
-
 }
 
-.center {
-  position: fixed;
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-  border: solid black 2px;
-  top: 45px;
-  bottom: 85px;
-  left: 155px;
-  right: 255px;
-  overflow: auto;
-  border-radius: 20px;
-  padding: 2px;
+.select {
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border-radius: 10px;
+   height: 22px;
+   margin-left:8px;
+   border: solid #242D49 2px;
+   background-color: #EFEFEF;
 }
 
-.listSmall {
-  font-size: 15px;
-  padding-left: 5px;
-  margin: 5px;
-}
 .songTable {
-
+  margin-left: 5px;
 }
 
+.title {
+  border-top: solid #936676 2px;
+  border-bottom: solid #936676 2px;
+  font-family: 'Raleway';
+  font-size: 20px;
+  font-style: medium;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  width: 100%;
+  color: white;
+  background-color: #936676;
+}
+
+.visualize {
+  min-width: 100%;
+  max-height: 100%;
+  overflow-x: scroll;
+}
 .wrapper {
   grid-gap: 5px;
   font-family: 'Raleway';
   font-style: bold;
   font-size: 20px;
+  color: #242D49;
   background-origin: content-box;
   background-image: url('./imgs/fondo_libri.jpg');
   position: fixed;
   display:inline-grid;
   grid-template-columns: 150px auto 250px;
-  grid-template-rows: 40px auto 80px;
+  grid-template-rows: 40px auto 85px;
   min-width: 100%;
   min-height: 100%;
-}
-
-.visualize {
-  min-width: 100%;
-  min-height: 100%;
-  overflow-x: auto;
-}
-
-.player {
-  grid-column: 2 / 3;
-  grid-row: 3 / 4;
-}
-
-.authorize {
-  position:fixed;
-  left: 200px;
 }

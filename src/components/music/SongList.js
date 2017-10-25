@@ -100,17 +100,17 @@ componentWillReceiveProps(nextProps){
 }
 
   mapSongs = (array) => {
-    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.title}</td><td>{row.artist}</td><td><button className="defButton" onClick={this.handlePlay} data-id={row.id} data-uri={row.uri}>Play Song</button></td><td><button className="defButton" onClick={this.handleAddtoPlaylist} data-id={row.id}>Add to Playlist</button></td><td><button className="defButton" onClick={this.handleAddtoSaved} data-id={row.id}>Save Song</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td data-uri={row.uri}>{row.title.toLowerCase()}</td><td>{row.artist.toLowerCase()}</td><td><button className="defButton" onClick={this.handlePlay} data-id={row.id} data-uri={row.uri}>play song</button></td><td><button className="defButton" onClick={this.handleAddtoPlaylist} data-id={row.id}>add to playlist</button></td><td><button className="defButton" onClick={this.handleAddtoSaved} data-id={row.id}>save song</button></td></tr>)})
   }
 
   mapPlaylists = (array) => {
-    return array.map((row, index) => {return (<tr key={index}><td draggable="true"  data-uri={row.uri}>{row.name}</td><td><button className="defButton" onClick={this.handlePlayPlaylist} data-id={row.id} >Play Playlist</button></td><td><button className="defButton" onClick={this.handleSavePlaylist} data-id={row.id}>Save Playlist</button></td></tr>)})
+    return array.map((row, index) => {return (<tr key={index}><td data-uri={row.uri}>{row.name.toLowerCase()}</td><td><button className="defButton" onClick={this.handlePlayPlaylist} data-id={row.id} >play playlist</button></td><td><button className="defButton" onClick={this.handleSavePlaylist} data-id={row.id}>save playlist</button></td></tr>)})
   }
 
   render () {
     var tablerows
     if (this.props.username === "") {
-      return (<h1>Welcome to Spotalyzer. <a onClick={this.handleLogin}>Login</a> or <a onClick={this.handleSignup}>Signup</a> to Continue</h1>)
+      return (<h1>welcome to spotalyzer. <a onClick={this.handleLogin}>login</a> or <a onClick={this.handleSignup}>signup</a> to continue</h1>)
     }
     else if (this.props.container === "welcome") {
         if (this.props.recentlyPlayed.length > 0) {

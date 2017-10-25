@@ -1,9 +1,9 @@
 import { scaleLinear, scaleOrdinal} from '@vx/scale';
 import { max, min } from 'd3-array';
 
-export const width = 4000;
+export const width = 6000;
 
-export const height = 450;
+export const height = 600;
 
 export const margin = {
 top: 30,

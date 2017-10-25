@@ -96,9 +96,9 @@ class MenuRight extends React.Component {
       var list = this.props.recentPlaylists.map((playlist) => {
         return (<option value={playlist.id}>{playlist.name}</option>)
       })
-      return (<select onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled>Select a Playlist</option>{list}</select>)
+      return (<select className="bigSelect" onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled>select a playlist</option>{list}</select>)
     } else {
-      return (<select onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled>No Playlists to Choose From</option></select>)
+      return (<select className="bigSelect" onChange={this.handleOption} value={this.props.currentPlaylist}><option value="" disabled>no playlists to choose from</option></select>)
     }
   }
 
@@ -115,13 +115,13 @@ class MenuRight extends React.Component {
     if (this.props.currentPlaylistSongs.length > 0) {
       let array = this.props.currentPlaylistSongs.map((song, index) => {
         if (index === 0) {
-          return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
+          return (<ul className="listSmall" style={{marginLeft: "5px"}}>{song.title.toLowerCase()} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
 
         } else if (index === this.props.currentPlaylistSongs.length - 1) {
-          return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button></ul>)
-        
+          return (<ul className="listSmall" style={{marginLeft: "5px"}}>{song.title.toLowerCase()} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button></ul>)
+
         } else {
-          return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
+          return (<ul className="listSmall" style={{marginLeft: "5px"}}>{song.title.toLowerCase()} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
         }
       })
       return array
@@ -131,9 +131,25 @@ class MenuRight extends React.Component {
   showSavedSongs = () => {
     if (this.props.savedSongs.length > 0) {
       let array = this.props.savedSongs.map((song) => {
-        return (<ul className="listSmall">{song.title}<br></br> <button className="defButton" onClick={this.removeSongFromSaved} data-id={song.id}>X</button><button className="defButton" onClick={this.handleAddToPlaylist} data-id={song.id}>Add to Playlist</button></ul>)
+        return (<ul className="listSmall" style={{marginLeft: "5px"}}>{song.title.toLowerCase()}: {song.artist.toLowerCase()}<br></br> <button className="defButton" onClick={this.removeSongFromSaved} data-id={song.id}>X</button><button className="defButton" onClick={this.handleAddToPlaylist} data-id={song.id}>add to playlist</button></ul>)
       })
       return array
+    }
+  }
+
+  showRemove = () => {
+    if (this.props.currentPlaylist !== "") {
+      return (<button className="defButton" style={{marginLeft: "5px"}} onClick={this.handleDelete} >remove current playlist</button>)
+    }
+  }
+  showPlay = () => {
+    if (this.props.currentPlaylist !== "") {
+      return (<button className="defButton" style={{marginLeft: "5px"}} onClick={this.handlePlayPlaylist} >play current playlist</button>)
+    }
+  }
+  showUpdate = () => {
+    if (this.props.currentPlaylist !== "") {
+      return (<button className="defButton" style={{marginLeft: "5px"}} onClick={this.updatePlaylist} >update playlist</button>)
     }
   }
 
@@ -141,16 +157,18 @@ class MenuRight extends React.Component {
     return (<div className="menuright">
       <div className="playlists">
         <form onSubmit={this.handleCreatePlaylist}>
-        <input type="text" placeholder="Create Playlist Name" onKeyUp={this.handleKeyUp}></input>
-        <button type="submit" className="defButton" >Create Playlist</button>
+        <input type="text" placeholder="playlist name..." onKeyUp={this.handleKeyUp}></input>
+        <button type="submit" className="defButton" >create playlist</button>
         </form>
+        <p className="title">playlists</p>
       {this.playlistOptions()}<br></br>
-    <button className="defButton" onClick={this.handleDelete} >Remove Current Playlist</button>
-    <button className="defButton" onClick={this.handlePlayPlaylist} >Play Current Playlist</button>
-    {this.playlistSongs()}<br></br>
-    <button className="defButton" onClick={this.updatePlaylist} >Update Playlist</button>
+    {this.showRemove()}
+    {this.showPlay()}
+    {this.playlistSongs()}
+    {this.showUpdate()}
       </div>
       <div className="saved">
+        <p className="title" style={{marginTop: "15px"}}>saved songs</p>
         {this.showSavedSongs()}
       </div>
     </div>)

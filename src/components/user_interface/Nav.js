@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
-import spotalyzer_logo from '../../imgs/spotalyzer_logo1.svg'
+import spotalyzer_logo from '../../imgs/spotalyzer_logo2.svg'
 import {connect} from 'react-redux'
 
 class Nav extends React.Component {

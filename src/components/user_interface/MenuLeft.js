@@ -49,10 +49,11 @@ class MenuLeft extends React.Component {
   }
 
   mapRecommendations = () => {
-    const centerStyle = {display: "block", margin: "auto"}
+    const centerStyle = {display: "block", margin: "auto", textAlign: "center"}
+    const centerButton = {position: "relative", left: "17%", marginBottom: "5px"}
     if (this.props.recommendation.length > 0) {
     return this.props.recommendation.map((song) => {
-      return (<div><ul className="listSmall" style={centerStyle}>{song.title}</ul><img style={centerStyle} src={song.artwork_url}/><button className="defButton" onClick={this.handlePlay} data-id={song.id} data-uri={song.uri}>Play</button><button className="defButton" onClick={this.handleAddtoSaved} data-id={song.id}>Save</button></div>)
+      return (<div ><ul className="listSmall" style={centerStyle}>{song.title.toLowerCase()}: {song.artist.toLowerCase()}</ul><img style={centerStyle} src={song.artwork_url}/><button className="defButton"  style={centerButton} onClick={this.handlePlay} data-id={song.id} data-uri={song.uri}>play</button><button className="defButton"  style={centerButton} onClick={this.handleAddtoSaved} data-id={song.id}>save</button></div>)
       })
     }
 
@@ -60,14 +61,14 @@ class MenuLeft extends React.Component {
   render () {
     return (<div className="menuleft">
     <form onSubmit={this.handleSubmit}>
-    <input type="text" placeholder="Search..." onKeyUp={this.handleKey}/>
-    <select onChange={this.handleOption} value={this.state.localSearchFilter}>
-    <option value="track">Track</option>
-    <option value="playlist">Playlist</option>
+    <input type="text" placeholder="search..." onKeyUp={this.handleKey}/>
+    <select className="select" onChange={this.handleOption} value={this.state.localSearchFilter}>
+    <option value="track">track</option>
+    <option value="playlist">playlist</option>
     </select>
-    <button className="defButton" type="submit">Search</button>
+    <button className="defButton" type="submit">search</button>
     </form>
-    Songs for You <br></br>
+    <p className="title">songs for you </p>
     {this.mapRecommendations()}
     </div>)
   }

@@ -8,20 +8,33 @@ import { extent, min, max } from 'd3-array';
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import * as pitchConstant from '../data/pitchConstant'
 import * as heatmapConstant from '../data/heatmapConstant'
-import { Stack } from '@vx/shape'
+import { Stack, Line } from '@vx/shape'
 import {curveBasis} from '@vx/curve'
+import { withTooltip, Tooltip } from '@vx/tooltip';
+import { localPoint } from '@vx/event';
 
 
 
 class SongVisual extends React.Component {
   state = {
     heat: true,
-    stream: true
+    stream: true,
+    tooltipOpen: false,
+    tooltipLeft: 0,
+    tooltipTop: 0,
+    tooltipData: null,
+    vertLineLeft: 0,
+    seconds: 0
   }
+
+  handleTooltip = (event, xScale ) => {
+      const { x, y } = localPoint(event) ;
+      const x0 = xScale.invert(x);
+      this.setState({vertLineLeft: x, tooltipLeft: x, tooltopTop: localPoint(event).y, seconds: x0})
+    }
 
   toggleHeat = (event) => {
     event.preventDefault()
-    console.log("hello", this.state)
     this.setState({heat: !this.state.heat})
   }
 
@@ -30,6 +43,28 @@ class SongVisual extends React.Component {
     this.setState({stream: !this.state.stream})
   }
 
+  renderToolTip = () => {
+    return (          <div>
+              <Tooltip
+                top={this.state.tooltipTop + 600}
+                left={14}
+                style={{
+                  backgroundColor: '#242D49',
+                  color: 'white',
+                  font: 'Raleway',
+                }}
+                >      <div>
+             {`${this.secondsString()}`}
+          </div>
+        </Tooltip>
+                </div>)
+  }
+
+  secondsString = () => {
+    let total = this.state.seconds
+
+    return `${parseInt(total/60)}:${(total % 60).toFixed(2)}`
+  }
 
   componentWillReceiveProps(nextProps){
     if (this.props.container === "welcome") {
@@ -58,9 +93,11 @@ class SongVisual extends React.Component {
       '#50394c',
       '#b2b2b2',
       '#f4e1d2',
+      '#936676',
       '#36486b',
       '#4040a1',
-      '#618685'
+      '#618685',
+      '#242D49'
     ],
       domain: [0, colorMax]
     });
@@ -72,16 +109,18 @@ class SongVisual extends React.Component {
       range: [.25, .5],
       domain: [0, colorMax]
     });
+    const events = false
     return (
 
         <Group top={80} left={pitchConstant.margin.left}>
           <HeatmapCircle
+
             data={heatmapData}
             xScale={xScale}
             yScale={yScale}
             colorScale={colorScale}
             opacityScale = {opacityScale}
-            radius={2.5*bWidth}
+            radius={bHeight/2.5}
             step={dStep}
             gap={2}
           />
@@ -92,24 +131,13 @@ class SongVisual extends React.Component {
 
   stack() {
     const data = this.props.songData.map( (item) => {
-      return {time: item.start,
-        pitch0: item.pitches[0],
-        pitch1: item.pitches[1],
-        pitch2: item.pitches[2],
-        pitch3: item.pitches[3],
-        pitch4: item.pitches[4],
-        pitch5: item.pitches[5],
-        pitch6: item.pitches[6],
-        pitch7: item.pitches[7],
-        pitch8: item.pitches[8],
-        pitch9: item.pitches[9],
-        pitch10: item.pitches[10],
-        pitch11: item.pitches[11]
+      return {time: item.start, pitch0: item.pitches[0], pitch1: item.pitches[1], pitch2: item.pitches[2], pitch3: item.pitches[3], pitch4: item.pitches[4], pitch5: item.pitches[5],
+        pitch6: item.pitches[6], pitch7: item.pitches[7], pitch8: item.pitches[8], pitch9: item.pitches[9], pitch10: item.pitches[10], pitch11: item.pitches[11]
         }})
 
     const yScale = scaleLinear({
       range: [pitchConstant.yMax, 0],
-      domain: [-4, 4]
+      domain: [-6, 6]
     });
 
     const xScale = scaleLinear({
@@ -143,26 +171,14 @@ class SongVisual extends React.Component {
         '#383855',
         '#2B2B4A',
         '#1E1E3F',
-        '#121235'
+        '#242D49'
       ],
     })
-    // <AxisLeft
-    //    scale={yScale}
-    //    top={0}
-    //    left={0}
-    //    stroke={'#1b1a1e'}
-    //    tickTextFill={'#1b1a1e'}
-    //  />
-    // <AxisBottom
-    //        scale={xScale}
-    //        top={pitchConstant.yMax}
-    //        stroke={'#1b1a1e'}
-    //        tickTextFill={'#1b1a1e'}
-    //      />
     return (
     <Group top={pitchConstant.margin.top+30} left={pitchConstant.margin.left}>
 
   <Stack
+
     keys={pitchConstant.keys}
     curve={curveBasis}
     data={data}
@@ -173,9 +189,10 @@ class SongVisual extends React.Component {
     render={({ seriesData, path }) => {
                 return seriesData.map((series, i) => {
                   return (
-                    <g key={`series-${series.key}`}>
+                    <g key={`series-${series.key}`} >
                       <path d={path(series)}  fill={zScale(series.key)} fill-opacity="0.45"/>
                       <path
+                        onMouseOver={event => this.handleTooltip(event, xScale)}
                         d={path(series)}
                          fill={zScale(series.key)} fill-opacity="0.45"
                         />
@@ -190,8 +207,8 @@ class SongVisual extends React.Component {
 
 
   render () {
-    const leftStyle = {position:"fixed",left:'170px',top:'54px'}
-    const rightStyle = {position:"fixed",left:'280px',top:'54px'}
+    const leftStyle = {position:"fixed",left:'170px',top:'49px'}
+    const rightStyle = {position:"fixed",left:'280px',top:'49px'}
     {
         if (this.props.songData.length > 0 && ((this.state.heat && this.state.stream) || (!this.state.heat && !this.state.stream))) {
             return (<div className="visualize">
@@ -199,7 +216,16 @@ class SongVisual extends React.Component {
             <button className="defButton" onClick={this.toggleStream} style={rightStyle}>Pitch Stream</button>
             <svg width={pitchConstant.width} height={pitchConstant.height}>
             {this.heat()}{this.stack()}
+            <Line
+            from={{ x: this.state.vertLineLeft, y: 30 }}
+            to={{ x: this.state.vertLineLeft, y: 3.2*pitchConstant.yMax}}
+            stroke="#242D49"
+            strokeWidth={1.5}
+            style={{ pointerEvents: 'none' }}
+            strokeDasharray="12,2"
+            />
             </svg>
+            {this.renderToolTip()}
             </div>)
         } else if (this.props.songData.length > 0 && this.state.heat && !this.state.stream) {
           return (<div className="visualize">
@@ -210,12 +236,21 @@ class SongVisual extends React.Component {
             </svg>
             </div>)
         } else if (this.props.songData.length > 0 && !this.state.heat && this.state.stream) {
-          return (<div className="visualize">
+          return (<div className="visualize"  >
           <button className="defButton" onClick={this.toggleHeat} style={leftStyle}>Timbre Heatmap</button>
           <button className="defButton" onClick={this.toggleStream} style={rightStyle}>Pitch Stream</button>
-            <svg width={pitchConstant.width} height={pitchConstant.height}>
+            <svg width={pitchConstant.width} height={pitchConstant.height} >
             {this.stack()}
-            </svg>
+        <Line
+        from={{ x: this.state.vertLineLeft, y: 30 }}
+        to={{ x: this.state.vertLineLeft, y: 3.2*pitchConstant.yMax}}
+        stroke="#242D49"
+        strokeWidth={1.5}
+        style={{ pointerEvents: 'none' }}
+        strokeDasharray="12,2"
+        />
+        </svg>
+            {this.renderToolTip()}
             </div>)
         } else {
       return (<div className="visualize">nothing</div>)
@@ -243,4 +278,4 @@ function mapDispatchToProps(dispatch) {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongVisual)
+export default connect(mapStateToProps, mapDispatchToProps)(withTooltip(SongVisual))
