@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import {getSongAnalysis} from '../../actions'
 import { Group } from '@vx/group'
-import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
+import { scaleBand, scaleLinear, scaleOrdinal, schemeCategory20b } from '@vx/scale';
 import { HeatmapCircle, HeatmapRect } from '@vx/heatmap';
 import { extent, min, max } from 'd3-array';
 import { AxisLeft, AxisBottom } from '@vx/axis';
@@ -53,26 +53,37 @@ class SongVisual extends React.Component {
       range: [pitchConstant.yMax, 0],
       domain: [dMin, dMax]
     });
-    const colorScale = scaleLinear({
-      range: ['#c7cbdb', '#021872'],
+    const colorScale = scaleOrdinal({
+      range: [ '#ffef96',
+      '#50394c',
+      '#b2b2b2',
+      '#f4e1d2',
+      '#36486b',
+      '#4040a1',
+      '#618685'
+    ],
       domain: [0, colorMax]
     });
+    // const colorScale = scaleLinear({
+    //   range: ['#c7cbdb', '#021872'],
+    //   domain: [0, colorMax]
+    // });
     const opacityScale = scaleLinear({
-      range: [.1, 1],
+      range: [.25, .5],
       domain: [0, colorMax]
     });
     return (
 
-        <Group top={pitchConstant.margin.top} left={pitchConstant.margin.left}>
+        <Group top={80} left={pitchConstant.margin.left}>
           <HeatmapCircle
             data={heatmapData}
             xScale={xScale}
             yScale={yScale}
             colorScale={colorScale}
             opacityScale = {opacityScale}
-            radius={4*bWidth}
+            radius={2.5*bWidth}
             step={dStep}
-            gap={1}
+            gap={2}
           />
         </Group>
 
@@ -98,7 +109,7 @@ class SongVisual extends React.Component {
 
     const yScale = scaleLinear({
       range: [pitchConstant.yMax, 0],
-      domain: [-5, 5]
+      domain: [-4, 4]
     });
 
     const xScale = scaleLinear({
@@ -109,18 +120,18 @@ class SongVisual extends React.Component {
     const zScale = scaleOrdinal({
       domain: pitchConstant.keys,
       range: [
-        // '#B9BFC1',
-        // '#5D677A',
-        // '#A9B0B5',
-        // '#4E586E',
-        // '#9AA1A9',
-        // '#3F4963',
-        // '#8B939D',
-        // '#303B57',
-        // '#7C8492',
-        // '#212C4B',
-        // '#6D7586',
-        // '#121E40',
+        // '#E8E8E8',
+        // '#EAD3D8',
+        // '#ECBFD3',
+        // '#EEAAD9',
+        // '#F094E9',
+        // '#E27EF3',
+        // '#C068F5',
+        // '#904DB8',
+        // '#6839B0',
+        // '#3C26A8',
+        // '#151EA0',
+        // '#053098',
         '#A0A0AC',
         '#9393A1',
         '#868696',
@@ -163,10 +174,10 @@ class SongVisual extends React.Component {
                 return seriesData.map((series, i) => {
                   return (
                     <g key={`series-${series.key}`}>
-                      <path d={path(series)} fill={zScale(series.key)} />
+                      <path d={path(series)}  fill={zScale(series.key)} fill-opacity="0.45"/>
                       <path
                         d={path(series)}
-                        fill={zScale(series.key)}
+                         fill={zScale(series.key)} fill-opacity="0.45"
                         />
                     </g>
                   );

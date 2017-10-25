@@ -10,6 +10,7 @@
     "@vx/mock-data": "0.0.136",
     "@vx/scale": "0.0.140",
     "@vx/shape": "0.0.142",
+    "@vx/tooltip": "0.0.143",
     "electron": "^1.7.9",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

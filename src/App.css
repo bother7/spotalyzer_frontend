@@ -53,6 +53,11 @@
   border-radius: 20px;
   padding: 2px;
   margin-bottom: 5px;
+  overflow-y: auto;
+  position: fixed;
+  top: 45px;
+  bottom: 0px;
+  max-width: 127px;
 }
 
 .menuright {

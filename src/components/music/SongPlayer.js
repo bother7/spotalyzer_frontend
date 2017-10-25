@@ -9,12 +9,11 @@ class SongContainer extends React.Component {
   //   console.log(helper.status)
   //   helper.player.play('spotify:track:4uLU6hMCjMI75M1A2tKUQC');
   // }
-  // componentDidMount(){
-    // helper.getCsrfToken()
-  //   this.refs.myIframe.onload = () => {
-  //     console.log(this.refs.myIframe)
-  //   }
-  // }
+  componentDidMount(){
+    this.refs.myIframe.onload = () => {
+      console.log(this.refs.myIframe)
+    }
+  }
   // <iframe className="player" src="https://open.spotify.com/embed?uri=spotify:track:5XCJndUuktaxfVruAek3mT&theme=white" ref="myIframe" width="300" height="80" frameBorder="0" allowTransparency="true"></iframe>
 
 

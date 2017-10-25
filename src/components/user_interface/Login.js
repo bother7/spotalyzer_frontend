@@ -35,6 +35,8 @@ class Login extends React.Component {
       this.props.handleLogin(json.name, json.id, json.jwt_token)
       this.props.isUserAuthorized(json.id)
       this.props.getPlaylists()
+      this.props.getSaved()
+      this.props.getRecommendation()
       this.props.history.push('/')
     })
   }
