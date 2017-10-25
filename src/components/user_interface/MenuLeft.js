@@ -41,7 +41,7 @@ class MenuLeft extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.recommendation.length > 1) {
+    if ((nextProps.recommendation.length > 1) && (nextProps.username !== "")) {
       return true
     } else {
       return false
@@ -77,6 +77,7 @@ class MenuLeft extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    username: state.users.username,
     savedSongs: state.playlists.savedSongs,
     recommendation: state.songs.recommendation
   }

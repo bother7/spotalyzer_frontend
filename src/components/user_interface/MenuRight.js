@@ -113,8 +113,16 @@ class MenuRight extends React.Component {
 
   playlistSongs = () => {
     if (this.props.currentPlaylistSongs.length > 0) {
-      let array = this.props.currentPlaylistSongs.map((song) => {
-        return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
+      let array = this.props.currentPlaylistSongs.map((song, index) => {
+        if (index === 0) {
+          return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
+
+        } else if (index === this.props.currentPlaylistSongs.length - 1) {
+          return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button></ul>)
+        
+        } else {
+          return (<ul className="listSmall">{song.title} <br></br> <button className="defButton" onClick={this.removeSongFromPlaylist} data-id={song.id}>X</button><button className="defButton" data-id={song.id} onClick={this.moveUp}>↑</button><button className="defButton" data-id={song.id} onClick={this.moveDown}>↓</button></ul>)
+        }
       })
       return array
     }

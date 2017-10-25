@@ -46,7 +46,7 @@
   float: left;
 }
 .menuleft {
-  margin-left: 15px;
+  margin-left: 7px;
   grid-column: 1 / 2;
   grid-row: 2 / 4;
   border: solid black 2px;
@@ -57,7 +57,7 @@
   position: fixed;
   top: 45px;
   bottom: 0px;
-  max-width: 127px;
+  max-width: 136px;
 }
 
 .menuright {

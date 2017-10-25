@@ -160,7 +160,7 @@ class SongVisual extends React.Component {
     //        tickTextFill={'#1b1a1e'}
     //      />
     return (
-    <Group top={pitchConstant.margin.top} left={pitchConstant.margin.left}>
+    <Group top={pitchConstant.margin.top+30} left={pitchConstant.margin.left}>
 
   <Stack
     keys={pitchConstant.keys}
@@ -193,7 +193,7 @@ class SongVisual extends React.Component {
     const leftStyle = {position:"fixed",left:'170px',top:'54px'}
     const rightStyle = {position:"fixed",left:'280px',top:'54px'}
     {
-        if (this.props.songData.length > 0 && this.state.heat && this.state.stream) {
+        if (this.props.songData.length > 0 && ((this.state.heat && this.state.stream) || (!this.state.heat && !this.state.stream))) {
             return (<div className="visualize">
             <button className="defButton" onClick={this.toggleHeat} style={leftStyle}>Timbre Heatmap</button>
             <button className="defButton" onClick={this.toggleStream} style={rightStyle}>Pitch Stream</button>
