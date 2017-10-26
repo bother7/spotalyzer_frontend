@@ -19,6 +19,17 @@ class MenuRight extends React.Component {
     this.props.createPlaylist(this.state.playlistName)
   }
 
+  handlePlay = (event) => {
+    event.preventDefault()
+    if (event.target.dataset.uri === "song unavailable"){
+      alert("song is unavailable on spotify")
+    } else {
+      this.props.playSong(event.target.dataset.uri)
+      this.props.getSongAnalysis(event.target.dataset.id)
+      this.props.history.push(`/songs/${event.target.dataset.id}`)
+    }
+  }
+
   handlePlayPlaylist = (event) => {
     event.preventDefault()
     this.props.playCurrentPlaylist(this.props.currentPlaylist)
@@ -131,7 +142,12 @@ class MenuRight extends React.Component {
   showSavedSongs = () => {
     if (this.props.savedSongs.length > 0) {
       let array = this.props.savedSongs.map((song) => {
-        return (<ul className="listSmall" style={{marginLeft: "5px"}}>{song.title.toLowerCase()}: {song.artist.toLowerCase()}<br></br> <button className="defButton" onClick={this.removeSongFromSaved} data-id={song.id}>X</button><button className="defButton" onClick={this.handleAddToPlaylist} data-id={song.id}>add to playlist</button></ul>)
+        return (<ul className="listSmall" style={{marginLeft: "5px"}}>
+        {song.title.toLowerCase()}: {song.artist.toLowerCase()}<br></br>
+        <button className="defButton" onClick={this.removeSongFromSaved} data-id={song.id}>X</button>
+        <button className="defButton" onClick={this.handlePlay} data-id={song.id} data-uri={song.uri}>play</button>
+        <button className="defButton" onClick={this.handleAddToPlaylist} data-id={song.id}>add to playlist</button>
+        </ul>)
       })
       return array
     }
