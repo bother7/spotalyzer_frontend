@@ -1,2 +1,2 @@
 
-export const env_url = "http://localhost:3001/api/v1"
+export const env_url = "https://spotalyzer-backend.herokuapp.com/api/v1"
