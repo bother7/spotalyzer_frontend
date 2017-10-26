@@ -83,7 +83,7 @@ class App extends Component {
     if (nextProps.username !== "" && !nextProps.isAuthorized) {
         this.props.userMustAuth()
     } else if (localStorage.getItem('jwt_token') !== null && nextProps.isAuthorized && (this.props.container === null)) {
-        this.goHome()
+        this.props.goHome()
     }
   }
 
