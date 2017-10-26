@@ -25,7 +25,7 @@ class CallbackSpotify extends React.Component {
         this.props.handleAuthorize()
         // this.props.getPlaylists()
         // this.props.getSaved()
-        this.props.history.push("/")
+        // this.props.history.push("/")
       })
       }
   }
