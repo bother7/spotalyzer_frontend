@@ -25,8 +25,6 @@ class CallbackSpotify extends React.Component {
         this.props.handleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
         this.props.handleAuthorize()
 
-        setTimeout(function(){ }, 1000)
-        this.props.history.push("/")
       })
       }
   }
