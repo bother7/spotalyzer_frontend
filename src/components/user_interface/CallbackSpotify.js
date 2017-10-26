@@ -48,6 +48,9 @@ function mapDispatchToProps(dispatch) {
     },
     getSaved: () => {
       dispatch(getSaved())
+    },
+    goHome: () => {
+      dispatch(goHome())
     }
   }
 }
