@@ -1,7 +1,7 @@
 import React from 'react'
 import {env_url} from '../data/environment'
 import {connect} from 'react-redux'
-import {authorizeUser, loginUser, getPlaylists, getSaved, goHome} from '../../actions/index'
+import {authorizeUser, loginUser, getPlaylists, getSaved} from '../../actions/index'
 
 
 class CallbackSpotify extends React.Component {
@@ -24,8 +24,8 @@ class CallbackSpotify extends React.Component {
         // this.props.trickleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
         this.props.handleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
         this.props.handleAuthorize()
-        this.props.goHome()
-        this.props.history.push("/")
+
+        setTimeout(function(){ this.props.history.push("/") }, 1000).bind(this)
       })
       }
   }
