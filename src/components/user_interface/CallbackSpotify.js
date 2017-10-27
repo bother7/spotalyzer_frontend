@@ -22,9 +22,9 @@ class CallbackSpotify extends React.Component {
       }).then(response => response.json())
       .then(json => {
         // this.props.trickleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
-        this.props.handleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
-        this.props.handleAuthorize()
-
+        // this.props.handleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
+        // this.props.handleAuthorize()
+        this.props.push('/')
       })
       }
   }
