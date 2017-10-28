@@ -58,7 +58,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('jwt_token') !== null && this.props.username === "") {
+    if (localStorage.getItem('jwt_token') !== null && this.props.username === "" ) {
+      console.log('hello', this.props.location)
       fetch(`${env_url}/users/persist`, {
         method: 'GET',
         headers: {
