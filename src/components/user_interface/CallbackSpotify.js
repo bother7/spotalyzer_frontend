@@ -1,7 +1,7 @@
 import React from 'react'
 import {env_url} from '../data/environment'
 import {connect} from 'react-redux'
-import {authorizeUser, loginUser, getPlaylists, getSaved} from '../../actions/index'
+import {authorizeUser, loginUser, getPlaylists, getSaved, getRecommendation} from '../../actions/index'
 
 
 class CallbackSpotify extends React.Component {
@@ -50,9 +50,15 @@ function mapDispatchToProps(dispatch) {
     },
     getSaved: () => {
       dispatch(getSaved())
+    },
+    getRecommendation: () => {
+      dispatch(getRecommendation())
     }
+
   }
 }
+
+
 
 
 export default connect(null, mapDispatchToProps)(CallbackSpotify)
