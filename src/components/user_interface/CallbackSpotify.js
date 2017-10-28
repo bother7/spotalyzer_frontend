@@ -25,6 +25,8 @@ class CallbackSpotify extends React.Component {
         // this.props.trickleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
         this.props.handleLogin(json.name, json.id, localStorage.getItem("jwt_token"))
         this.props.handleAuthorize()
+        this.props.getPlaylists()
+        this.props.getRecommendation()
         this.props.history.push('/')
       })
       }

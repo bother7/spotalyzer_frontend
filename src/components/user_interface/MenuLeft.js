@@ -44,7 +44,10 @@ class MenuLeft extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if ((nextProps.recommendation.length > 1) && (nextProps.username !== "")) {
       return true
-    } else {
+    } else if (nextProps.recommendation !== this.props.recommendation){
+      return true
+    }
+    else {
       return false
     }
   }
