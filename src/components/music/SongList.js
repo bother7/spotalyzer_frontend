@@ -96,8 +96,11 @@ componentWillReceiveProps(nextProps){
     this.props.searchTerm(nextProps.match.params.search, nextProps.match.params.filter)
   }
   if (this.props.history.location.pathname.startsWith("/songs") && (this.props.container !== "visualize")){
+    console.log("hello")
     if (this.props.match.params.id === "demo") {
-      this.props.demoLogin(null, "demo_data", "123")
+      (event) => {
+        this.props.demoLogin(event, "demo_data", "123")
+      }
       this.props.getSongAnalysis("3")
     } else {
       this.props.getSongAnalysis(this.props.match.params.id)
