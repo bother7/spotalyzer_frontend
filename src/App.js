@@ -26,7 +26,7 @@ class App extends Component {
     this.props.signOut()
   }
 
-  demoLogin = (event) => {
+  demoLogin = (event, demo_user, demo_pw) => {
 
       fetch(`${env_url}/login`, {
         method: 'POST',
@@ -34,18 +34,20 @@ class App extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: "demo",
-          password: "123"
+          username: demo_user,
+          password: demo_pw
         })
       })
       .then(response => response.json())
       .then(json => {
         this.props.loginUser(json.name, json.id, json.jwt_token)
         this.props.isUserAuthorized(json.id)
-        this.props.getPlaylists()
-        this.props.getSaved()
-        this.props.getRecommendation()
-        this.props.history.push('/')
+        if (demo_user === "demo") {
+          this.props.getPlaylists()
+          this.props.getSaved()
+          this.props.getRecommendation()
+          this.props.history.push('/')
+        }
       })
     }
 
@@ -99,12 +101,12 @@ class App extends Component {
         <Route path='/authorize' component={() => window.location = auth}/>
         <Route path='/login' render={ (props) => {return <Login {...props} />}} />
         <Route exact path="/callback" render={ (props) => {return <CallbackSpotify {...props} />}} />
-        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} />}}/>
+        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} demoLogin={this.demoLogin} />}}/>
         <Route exact path='/search&q=:search&filter=:filter' render={(props) => {return <SongContainer {...props} container={"search"} />}}/>
         <Route exact path='/playlists/:id' render={(props) => {
             return <SongContainer {...props} container={"playlist"} />}}/>
         <Route exact path='/songs/:id' render={(props) => {
-            return <SongContainer {...props} container={"visualize"} />}}/>
+            return <SongContainer {...props} container={"visualize"} demoLogin={this.demoLogin} />}}/>
         </div>
   );
   }

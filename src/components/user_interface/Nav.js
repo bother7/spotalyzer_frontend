@@ -25,7 +25,7 @@ class Nav extends React.Component {
 
   renderDemo = () => {
     if (this.props.username === "") {
-      return (<NavLink to="/" onClick={this.props.demoLogin} className="item">demo</NavLink>)
+      return (<NavLink to="/" onClick={(event) => {this.props.demoLogin(event, "demo", "123")}} className="item">demo</NavLink>)
     }
   }
 
