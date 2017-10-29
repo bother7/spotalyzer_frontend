@@ -78,7 +78,7 @@ componentDidMount(){
 }
 
 componentWillReceiveProps(nextProps){
-  
+
   if (this.props.recentPlaylists !== nextProps.recentPlaylists){
     if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylist === "")){
       const id = this.props.history.location.pathname.split("/playlists/")[1]
@@ -101,7 +101,7 @@ componentWillReceiveProps(nextProps){
     }
 
   if (this.props.history.location.pathname.startsWith("/demo")) {
-      this.props.demoLogin(event, "demo_data", "123")
+      this.props.demoLogin(null, "demo_data", "123")
       this.props.getSongAnalysis("3")
 
   }
