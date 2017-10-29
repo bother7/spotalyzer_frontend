@@ -75,6 +75,11 @@ componentDidMount(){
     this.props.fetchRecent()
     this.props.getRecommendation()
   }
+  if (this.props.history.location.pathname.startsWith("/demo")) {
+      this.props.demoLogin(null, "demo_data", "123")
+      this.props.getSongAnalysis("3")
+
+  }
 }
 
 componentWillReceiveProps(nextProps){
@@ -100,11 +105,7 @@ componentWillReceiveProps(nextProps){
       this.props.getSongAnalysis(this.props.match.params.id)
     }
 
-  if (this.props.history.location.pathname.startsWith("/demo")) {
-      this.props.demoLogin(null, "demo_data", "123")
-      this.props.getSongAnalysis("3")
 
-  }
 }
 
   mapSongs = (array) => {
