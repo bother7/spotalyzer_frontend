@@ -60,7 +60,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('jwt_token') !== null && this.props.username === "" && this.props.location.pathname !== "/callback") {
+    if (localStorage.getItem('jwt_token') !== null && this.props.username === "" && this.props.location.pathname !== "/callback" && this.props.location.pathname !== "/demo") {
       // console.log('hello', this.props.location)
       fetch(`${env_url}/users/persist`, {
         method: 'GET',
