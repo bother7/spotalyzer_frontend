@@ -105,14 +105,14 @@ class App extends Component {
         <Route path='/authorize' component={() => window.location = auth}/>
         <Route path='/login' render={ (props) => {return <Login {...props} />}} />
         <Route exact path="/callback" render={ (props) => {return <CallbackSpotify {...props} />}} />
-        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} demoLogin={this.demoLogin} />}}/>
+        <Route exact path='/' render={(props) => {return <SongContainer {...props} container={this.props.container} />}}/>
         <Route exact path='/search&q=:search&filter=:filter' render={(props) => {return <SongContainer {...props} container={"search"} />}}/>
         <Route exact path='/playlists/:id' render={(props) => {
             return <SongContainer {...props} container={"playlist"} />}}/>
         <Route exact path='/songs/:id' render={(props) => {
-            return <SongContainer {...props} container={"visualize"} demoLogin={this.demoLogin} />}}/>
-        <Route exact path='/songs/:id' render={(props) => {
-            return <SongContainer {...props} container={"visualize"} demoLogin={this.demoLogin} />}}/>
+            return <SongContainer {...props} container={"visualize"}  />}}/>
+        <Route exact path='/demo' render={(props) => {
+            return <SongContainer {...props} container={"visualize"}  />}}/>
       </div>
   );
   }
