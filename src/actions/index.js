@@ -158,7 +158,8 @@ export function getSongAnalysis (id) {
     }).then(resp => resp.json())
     .then(json => {
       dispatch(playSong(json.uri))
-      dispatch(storeSongAnalysis(json.data))})
+      dispatch(storeSongAnalysis(json.data))
+    })
   }
 }
 
