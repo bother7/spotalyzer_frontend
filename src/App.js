@@ -107,7 +107,9 @@ class App extends Component {
             return <SongContainer {...props} container={"playlist"} />}}/>
         <Route exact path='/songs/:id' render={(props) => {
             return <SongContainer {...props} container={"visualize"} demoLogin={this.demoLogin} />}}/>
-        </div>
+        <Route exact path='/songs/:id' render={(props) => {
+            return <SongContainer {...props} container={"visualize"} demoLogin={this.demoLogin} />}}/>
+      </div>
   );
   }
 }

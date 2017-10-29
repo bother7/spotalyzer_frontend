@@ -78,7 +78,7 @@ componentDidMount(){
 }
 
 componentWillReceiveProps(nextProps){
-    console.log("hello", this.props.history.location)
+  
   if (this.props.recentPlaylists !== nextProps.recentPlaylists){
     if (this.props.history.location.pathname.startsWith("/playlists/") && (this.props.currentPlaylist === "")){
       const id = this.props.history.location.pathname.split("/playlists/")[1]
@@ -97,15 +97,13 @@ componentWillReceiveProps(nextProps){
     this.props.searchTerm(nextProps.match.params.search, nextProps.match.params.filter)
   }
   if (this.props.history.location.pathname.startsWith("/songs") && (this.props.container !== "visualize")){
-
-    if (this.props.match.params.id === 'demo') {
-      (event) => {
-        this.props.demoLogin(event, "demo_data", "123")
-      }
-      this.props.getSongAnalysis("3")
-    } else {
       this.props.getSongAnalysis(this.props.match.params.id)
     }
+
+  if (this.props.history.location.pathname.startsWith("/demo")) {
+      this.props.demoLogin(event, "demo_data", "123")
+      this.props.getSongAnalysis("3")
+
   }
 }
 
