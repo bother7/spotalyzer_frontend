@@ -67,7 +67,7 @@ class SongVisual extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log(this.props)
+
     if (this.props.container === "welcome" && !this.props.history.location.pathname.startsWith("/demo")) {
       this.props.getSongAnalysis(this.props.match.params.id)
     }

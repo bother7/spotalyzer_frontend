@@ -82,7 +82,7 @@ class App extends Component {
     }
     if (this.props.history.location.pathname.startsWith("/demo")) {
         this.demoLogin(null, "demo_data", "123")
-        this.props.getSongAnalysis(3)
+        this.props.getSongAnalysis(8)
     }
   }
 
