@@ -7,13 +7,15 @@ A web app for the Spotify API with data visualization of currently playing music
 * [Homepage](https://spotalyzer-frontend.herokuapp.com/) - Main page, click demo to login
 * [Data Visualization Demo](https://spotalyzer-frontend.herokuapp.com/demo) - Click here to get sent to a sample data visualization page
 
+![alt text](https://raw.githubusercontent.com/bother7/spotalyzer-frontend/master/public/demo.png)
+
 ## Navigating
 
 Most Spotify functions are available. Search for songs, manage playlists. Update playlists on Spotify. Save songs for later. You can login with the demo account, or create your own account and link it to your spotify.
 
 ## Data visualization
 
-Data visualization is done using VX and D3. Spotify API gives access to all this song data. The stack chart is the pitches of the song from a scale of 0 to 1. There are twelve pitches at all points in time, and spotify analysis divides them into durations of seconds. The timbre heatmap is also available. Timbre is divided into the same 12 pitches and durations, however, the value of timbre is more like the quality of the sound. An F note coming from a trumpet or a violin have a different quality to them. 
+Data visualization is done using VX and D3. Spotify API gives access to all this song data. The stack chart is the pitches of the song from a scale of 0 to 1. There are twelve pitches at all points in time, and spotify analysis divides them into durations of seconds. The timbre heatmap is also available. Timbre is divided into the same 12 pitches and durations, however, the value of timbre is more like the quality of the sound. An F note coming from a trumpet or a violin have a different quality to them.
 
 ### Installing
 
