@@ -18,7 +18,7 @@ class Nav extends React.Component {
   }
 
   renderAuthorize = () => {
-    if (this.props.isAuthorized === false) {
+    if (this.props.isAuthorized === false && this.props.username !== "") {
       return (<NavLink activeClassName="active" className="item" to="/authorize" onClick={this.props.handleAuthorize}>authorize</NavLink>)
     }
   }
