@@ -92,15 +92,6 @@ class SongVisual extends React.Component {
     });
     const colorScale = scaleOrdinal({
       range: [
-      //   '#ffef96',
-      // '#50394c',
-      // '#b2b2b2',
-      // '#f4e1d2',
-      // '#936676',
-      // '#36486b',
-      // '#4040a1',
-      // '#618685',
-      // '#242D49'
       '#242D49',
       '#666666',
       '#936676',
@@ -114,10 +105,6 @@ class SongVisual extends React.Component {
     ],
       domain: [0, colorMax]
     });
-    // const colorScale = scaleLinear({
-    //   range: ['#c7cbdb', '#021872'],
-    //   domain: [0, colorMax]
-    // });
     const opacityScale = scaleLinear({
       range: [.25, opacity],
       domain: [0, colorMax]
@@ -173,19 +160,6 @@ class SongVisual extends React.Component {
         '#A0A0AC',
         '#FEF9EF',
         '#000A56',
-
-        // '#A0A0AC',
-        // '#9393A1',
-        // '#868696',
-        // '#79798B',
-        // '#6C6C80',
-        // '#5F5F75',
-        // '#52526B',
-        // '#454560',
-        // '#383855',
-        // '#2B2B4A',
-        // '#1E1E3F',
-        // '#242D49'
       ],
     })
     return (
