@@ -44,7 +44,7 @@ class SongVisual extends React.Component {
   }
 
   renderToolTip = () => {
-    return (          <div>
+    return (<div>
               <Tooltip
                 top={this.state.tooltipTop + 600}
                 left={14}
