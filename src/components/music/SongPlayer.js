@@ -14,7 +14,6 @@ class SongContainer extends React.Component {
       console.log(this.refs.myIframe)
     }
   }
-  // <iframe className="player" src="https://open.spotify.com/embed?uri=spotify:track:5XCJndUuktaxfVruAek3mT&theme=white" ref="myIframe" width="300" height="80" frameBorder="0" allowTransparency="true"></iframe>
 
 
 
@@ -33,10 +32,6 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
 
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongContainer)
+export default connect(mapStateToProps, null)(SongContainer)
